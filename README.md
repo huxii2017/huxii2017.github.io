@@ -1,4 +1,4 @@
-# 🧬 xi.github.io 🧬
+# 🧬 Xi's Personal Websites 🧬
 
 Welcome to my personal website — [https://huxii2017.github.io](https://huxii2017.github.io)
 
