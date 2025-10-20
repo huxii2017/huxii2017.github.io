@@ -1,6 +1,6 @@
 # 🧬 xi.github.io 🧬
 
-Welcome to my personal website — [https://xi.github.io](https://xi.github.io)
+Welcome to my personal website — [https://huxii2017.github.io](https://huxii2017.github.io)
 
 This site serves as a living notebook that documents my research, data science explorations, and visualization practices.  
 
