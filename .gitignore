@@ -3,9 +3,13 @@ _site
 .jekyll-cache
 .jekyll-metadata
 z-gallery-images.pptx
+~$z-gallery-images.pptx
+.DS_Store
+.gitignore
 vendor
 assets/viz/*/*.md
 assets/viz/*/*.ipynb
 
 assets/biostat/*/*.md
 assets/biostat/*/*.ipynb
+~
