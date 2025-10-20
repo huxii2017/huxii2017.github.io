@@ -30,7 +30,7 @@ url: "https://xi.github.io" # the base hostname & protocol for your site, e.g. h
 #github_username:  huxii2017
 
 # Build settings
-theme: minima
+theme: jekyll-theme-minimal
 plugins:
   - jekyll-feed
   - jekyll-last-modified-at
