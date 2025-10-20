@@ -1,0 +1,35 @@
+<section class="section notfound">
+    <h1 class="error-title">🛠️ Page Under Construction 🛠️</h1>
+    
+    <p class="error-message">
+    Hi there! Thanks for stopping by. <br>
+    Current time is: <span id="current-time"></span>
+    </p>
+
+    <p>
+    Unfortunately, this page is still warming up its neurons... 🧠⚡ <br>
+    Maybe it’s training a model, maybe it’s waiting for coffee ☕, <br>
+    but one thing’s for sure: it’s not ready yet.
+    </p>
+
+    <p>
+    Please check back soon — by then it should be smarter, faster, and prettier ✨.
+    </p>
+
+    <div class="back-home">
+    <a href="{{ '/' | relative_url }}">← Back to Home (safest route!)</a>
+    </div>
+</section>
+
+<script>
+    function updateTime() {
+    const now = new Date();
+    const options = {
+        weekday: 'long', year: 'numeric', month: 'long',
+        day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit'
+    };
+    document.getElementById("current-time").textContent = now.toLocaleString('en-US', options);
+    }
+    setInterval(updateTime, 1000);
+    updateTime();
+</script>

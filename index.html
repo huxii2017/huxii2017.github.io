@@ -1,0 +1,62 @@
+---
+layout: default
+title: Home
+page_css: home
+---
+
+<section id="home" class="home section">
+  <h1 class="home-name">Xi HU</h1>
+
+  <div class="social-icons">
+    <a href="https://www.linkedin.com/in/xi-hu-ai/" target="_blank"><i class="fab fa-linkedin"></i></a>
+    <a href="mailto:huxii2017@gmail.com"><i class="fas fa-envelope"></i></a>
+    <a href="https://xi.github.io" target="_blank"><i class="fab fa-github"></i></a>
+  </div>
+
+  <p class="intro">
+    I am a computational biologist with expertise in <strong style="color:#fff4e6;">bioinformatics, biostatistics, and AI for Science</strong>, with a passion for applying <strong>AI</strong> and <strong>multi-omics integration</strong> to advance precision medicine.  
+  </p>
+  
+  <h2 class="section-title">Primary Interests</h2>
+  <ul class="interests">
+    <li><strong>Exploring cfDNA</strong> for clinical applications and product development.</li>
+    <li><strong>Linking tissue-level signals</strong> such as chromatin states information to refine cfDNA biomarkers.</li>
+    <li><strong>Incorporating multimodal data</strong> including clinical records, imaging, and blood chemistry to build realistic disease models.</li>
+    <li><strong>Developing bioinformatics tools</strong> for advanced sequencing data analysis and integration.</li>
+  </ul>
+
+<!-- ===== Floating Update Log Button ===== -->
+<a href="{{ '/maintenance/' | relative_url }}" id="updateBtn" class="update-btn" title="View Update Log">
+  Logs
+</a>
+
+</section>
+
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const btn = document.getElementById("updateBtn");
+
+    // 网站构建时间（由 Jekyll 自动插入）
+    const siteUpdated = new Date("{{ site.time | date: '%Y-%m-%dT%H:%M:%S' }}");
+    const now = new Date();
+
+    // 计算相差天数
+    const diffDays = (now - siteUpdated) / (1000 * 60 * 60 * 24);
+
+    // 如果在 7 天以内更新，则添加闪烁效果
+    if (diffDays <= 7) {
+      btn.classList.add("flash");
+
+      // 添加加提示气泡
+      const bubble = document.createElement("div");
+      bubble.className = "update-hint";
+      bubble.textContent = "💡 New updates this week!";
+      document.body.appendChild(bubble);
+
+      // 3 秒后自动淡出提示
+      setTimeout(() => bubble.classList.add("fade"), 3000);
+    }
+  });
+</script>

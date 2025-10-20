@@ -1,0 +1,38 @@
+---
+permalink: /404.html
+layout: default
+title: "Updating..."
+---
+
+<section class="section notfound">
+  <h1 class="error-title">🚧 Under Maintenance 🚧</h1>
+  
+  <p class="error-message">
+    Hello, welcome to my website! <br>
+    Current time is: <span id="current-time"></span>
+  </p>
+
+  <p>
+    Unfortunately, the page you are looking for is not available right now. <br>
+    The site is under active development and updates are ongoing. <br>
+    Please check back soon!
+  </p>
+
+  <div class="back-home">
+    <a href="{{ '/' | relative_url }}">← Back to Home</a>
+  </div>
+</section>
+
+<script>
+  // 实时显示当前时间
+  function updateTime() {
+    const now = new Date();
+    const options = {
+      weekday: 'long', year: 'numeric', month: 'long',
+      day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit'
+    };
+    document.getElementById("current-time").textContent = now.toLocaleString('en-US', options);
+  }
+  setInterval(updateTime, 1000); // 每秒刷新
+  updateTime(); // 初始化
+</script>

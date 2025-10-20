@@ -1,0 +1,11 @@
+.update-log ul li {
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    transition: all 0.3s ease;
+}
+
+.update-log ul li:hover {
+    background: rgba(255,255,255,0.05);
+    border-radius: 6px;
+    padding-left: 10px;
+}

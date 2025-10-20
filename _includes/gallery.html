@@ -1,0 +1,153 @@
+<section id="{{ include.id }}" class="section gallery-section">
+    <div class="viz-wrap">
+    <h2>{{ include.title }}</h2>
+    <p class="gallery-intro">{{ include.intro | default: "" }}</p>
+
+    {%- assign data_obj = include.data -%}
+    {%- if data_obj.items -%}
+    {%- assign list = data_obj.items -%}
+    {%- else -%}
+    {%- assign list = data_obj | where_exp: "it", "it.title or it.image or it.link or it.url" -%}
+    {%- endif -%}
+
+    {%- assign item_count = list | size -%}
+    {%- assign last_updated = data_obj.last_updated | default: site.time -%}
+
+    <p class="viz-date" style="text-align:right; font-size:0.9em; color:#d8c7b5;">
+    <i class="fas fa-database"></i>
+    {{ item_count }} item{% if item_count != 1 %}s{% endif %}
+    ·
+    <i class="fas fa-clock"></i>
+    Last update: {{ last_updated | date: "%b %d, %Y" }}
+    </p>
+
+    <!-- ===== Gallery View ===== -->
+    {% assign gallery_items = include.data.items | default: include.data %}
+    <div id="viz-gallery" class="viz-gallery">
+    {% for item in gallery_items %}
+        {%- assign raw = item.url | default: item.link -%}
+        {%- assign is_external = false -%}
+        {%- if item.url or raw contains 'http' -%}
+        {%- assign is_external = true -%}
+        {%- endif -%}
+        {%- if is_external -%}
+        {%- assign resolved = raw -%}          
+        {%- else -%}
+        {%- assign resolved = raw | relative_url -%}
+        {%- endif -%}
+
+        <div class="viz-card">
+        <a href="javascript:void(0);"
+            onclick="openViz('{{ resolved }}', '{{ is_external }}' === 'true', '{{ item.embed | default: false }}' === 'true')"
+            class="viz-link">
+            <div class="viz-thumb">
+            <img src="{{ item.image | relative_url }}" alt="{{ item.title }}">
+            {% if is_external %}
+                <span class="external-icon" title="External link">🌐</span>
+            {% endif %}
+            </div>
+            <h3 class="viz-title">{{ item.title }}</h3>
+            {% if item.desc %}<p class="viz-desc">{{ item.desc }}</p>{% endif %}
+        </a>
+
+        {% if item.added or item.updated %}
+            <p class="viz-date" style="text-align:center; font-size:0.85em; color:#ddd;">
+            {% if item.added %}Added: {{ item.added | date: "%Y-%m-%d" }}{% endif %}
+            {% if item.updated %} · Updated: {{ item.updated | date: "%Y-%m-%d" }}{% endif %}
+            </p>
+        {% endif %}
+        </div>
+    {% endfor %}
+
+    <!-- 占位卡 -->
+    <div class="viz-card placeholder">
+        <div class="viz-thumb">
+        <div class="viz-placeholder">More updates on the way <br/> ✨</div>
+        </div>
+        <h3 class="viz-title">New Item</h3>
+        <p class="viz-desc"></p>
+    </div>
+    </div>
+
+    <!-- ===== Viewer View ===== -->
+    <div id="viz-viewer" style="display:none; margin-top:20px;">
+    <div class="viewer-bar">
+        <button onclick="backToGallery()" class="back-btn">← Back to Gallery</button>
+        <a id="open-external" href="#" target="_blank" class="open-external" style="display:none;">Open in new tab</a>
+    </div>
+    <iframe id="viz-frame" src="" style="width:100%; height:80vh; border:none; border-radius:8px;"></iframe>
+    </div>
+
+    <!-- ===== Markdown Viewer ===== -->
+    <div id="viz-md" class="markdown-viewer" style="display:none;"></div>
+</div>
+</section>
+
+<script>
+function openViz(link, isExternal, wantsEmbed) {
+    const gallery = document.getElementById("viz-gallery");
+    const viewer  = document.getElementById("viz-viewer");
+    const iframe  = document.getElementById("viz-frame");
+    const mdDiv   = document.getElementById("viz-md");
+    const openBtn = document.getElementById("open-external");
+
+  // --- Detect domains that block iframe embedding (CSP: frame-ancestors 'none') ---
+    const blockedDomains = /(github\.com|gitlab\.com|google\.com|medium\.com|dropbox\.com|notion\.so)/i;
+    const cannotEmbed = blockedDomains.test(link);
+
+  // === Handle external links ===
+    if (isExternal) {
+    // Strategy A: Open in a new tab if embedding is not requested or not allowed
+    if (!wantsEmbed || cannotEmbed) {
+        window.open(link, "_blank");
+        return;
+    }
+
+    // Strategy B: Try to embed and provide a fallback “Open in new tab” button
+    gallery.style.display = "none";
+    viewer.style.display  = "block";
+    mdDiv.style.display   = "none";
+    iframe.style.display  = "block";
+    iframe.style.opacity  = 0.3;
+    iframe.src = link;
+    openBtn.href = link;
+    openBtn.style.display = "inline-block";
+    iframe.onload = () => { iframe.style.opacity = 1; };
+    return;
+}
+
+  // === Handle internal content (Markdown / HTML / other files) ===
+    gallery.style.display = "none";
+    viewer.style.display  = "block";
+    openBtn.style.display = "none"; // Hide the external button for local content
+
+    if (link.endsWith(".md")) {
+    // Markdown viewer
+    iframe.style.display = "none";
+    mdDiv.style.display  = "block";
+    renderMarkdown(link, "viz-md");
+    } else if (link.endsWith(".html")) {
+    // Embedded HTML page
+    mdDiv.style.display  = "none";
+    iframe.style.display = "block";
+    iframe.style.opacity = 0.3;
+    iframe.src = link;
+    iframe.onload = () => { iframe.style.opacity = 1; };
+    } else {
+    // Unsupported file type warning
+    iframe.style.display = "none";
+    mdDiv.style.display  = "block";
+    mdDiv.innerHTML = `<p style="color:#ffb3b3;">⚠️ Unsupported file type:</p><pre>${link}</pre>`;
+}
+}
+
+function backToGallery() {
+  // Reset viewer and return to gallery mode
+    document.getElementById("viz-gallery").style.display = "";
+    document.getElementById("viz-viewer").style.display = "none";
+    document.getElementById("viz-frame").src = "";
+    document.getElementById("viz-md").innerHTML = "";
+    document.getElementById("open-external").style.display = "none";
+}
+</script>
+

@@ -1,0 +1,118 @@
+/* publication */
+.pub-card {
+    display: flex;
+    margin-bottom: 40px;
+    padding: 20px;
+    background: #6a3e3e;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.pub-figure-box {
+    width: 100%; 
+    max-height: 350px;       
+    overflow-y: auto;         
+    border-radius: 6px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+
+.pub-figure-box img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.pub-left img {
+    width: 440px;   
+    max-width: 100%; 
+    border-radius: 6px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+
+.pub-right {
+    flex: 1;
+    margin-left: 20px;
+}
+
+.pub-title {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.pub-authors {
+    font-size: 14px;
+    margin-bottom: 6px;
+}
+
+.pub-meta {
+    font-size: 14px;
+    color: #ddd;
+    margin-bottom: 10px;
+}
+
+.contribution {
+    font-weight: bold;
+    color: #e2b44d;  
+}
+
+.pub-links a {
+    margin-right: 15px;
+    text-decoration: none;
+    font-weight: bold;
+    color: #e2b44d;
+}
+
+.pub-links a:hover {
+    color: #fff;
+    text-shadow: 0 0 6px rgba(255,255,255,0.7);
+}
+
+.patent-icon {
+    font-size: 48px;
+    text-align: center;
+    margin-top: 20px;
+}
+
+
+.pub-card.highlight {
+    position: relative;
+    border: 2px dashed #ffb84d;
+    border-radius: 10px;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0%   { box-shadow: 0 0 0 0 rgba(255,184,77,0.6); }
+    70%  { box-shadow: 0 0 10px 15px rgba(255,184,77,0); }
+    100% { box-shadow: 0 0 0 0 rgba(255,184,77,0); }
+}
+/* 让 News 链接闪烁/跳动 */
+.highlight-news {
+    position: relative;
+    color: #ffcc66;  /* 金黄色，更显眼 */
+    font-weight: bold;
+    animation: pulseText 1.5s infinite;
+}
+
+  /* 文本呼吸闪烁 */
+@keyframes pulseText {
+    0%   { color: #ffcc66; text-shadow: 0 0 2px #ffcc66; }
+    50%  { color: #ffffff; text-shadow: 0 0 8px #ffcc66; }
+    100% { color: #ffcc66; text-shadow: 0 0 2px #ffcc66; }
+}
+
+  /* 可选：在文字旁边加一个手绘风格小箭头 */
+.highlight-news::after {
+    content: " ← new !";
+    font-size: 0.8em;
+    color: #70ff66;
+    margin-left: 6px;
+    animation: bounce 1s infinite;
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-3px); }
+}
+

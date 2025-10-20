@@ -1,0 +1,45 @@
+---
+layout: default
+title: Maintenance Log
+permalink: /maintenance/
+page_css: maintenance
+---
+
+<section id="maintenance" class="section maintenance-section">
+  <h2>Website Maintenance & Update Notes 🛠️</h2>
+
+  <p style="text-align: justify;">
+    This site evolves continuously — blending design, data, and creativity.  
+    Below is an auto-generated timeline of progress and refinements.
+  </p>
+
+  <div class="update-log" style="background: rgba(255,255,255,0.05); border-radius: 10px; padding: 20px; margin-top: 20px;">
+    {% assign updates = site.data.updates.items | sort: "date" | reverse %}
+    {% assign last_month = "" %}
+    <ul style="list-style: none; padding-left: 0; line-height: 1.8;">
+      {% for item in updates %}
+        {% assign month = item.date | date: "%B %Y" %}
+        {% if month != last_month %}
+          <h3 style="margin-top: 25px; color:#ffd780;">🗓️ {{ month }}</h3>
+          {% assign last_month = month %}
+        {% endif %}
+        <li style="margin-bottom: 15px;">
+          <span style="font-size: 1.2em;">{{ item.icon }}</span>
+          <strong>{{ item.date | date: "%b %d" }}</strong> — <em>{{ item.title }}</em><br>
+          <span style="color:#d8c7b5;">{{ item.desc }}</span>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+
+  <p style="font-size: 0.9em; text-align: right; color: #d8c7b5; margin-top: 20px;">
+    Last auto-refresh: 
+    <script>
+      document.write(new Date().toLocaleString("en-US", {
+        timeZone: "America/Chicago",
+        dateStyle: "medium",
+        timeStyle: "short"
+      }));
+    </script>
+  </p>
+</section>

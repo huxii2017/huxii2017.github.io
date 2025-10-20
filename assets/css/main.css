@@ -1,0 +1,173 @@
+*, *::before, *::after { box-sizing: border-box; }
+
+html,body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden; /* 关键：禁用页面层面的纵向滚动 */
+    font-family: "Faustina", serif;
+    color: #fff;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+h2 {
+    font-size: 64px;  
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #fff;       
+    text-align: left;  
+}
+
+h3 {
+    font-size: 24px; 
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #fff;      
+    text-align: left;  
+}
+
+.main-content {
+    margin-left: 240px;        
+    height: 100vh;         
+    overflow-y: auto;         
+    box-sizing: border-box;
+}
+
+.section {
+    padding: 60px;
+    min-height: 100%;
+    background: #947e6a; /* https://www.color-hex.com/color-palette/1064829 */
+}
+
+/* Sidebar */
+.sidebar {
+    position: fixed;
+    left: 0; top: 0; bottom: 0;
+    width: 240px;             
+    padding: 20px;
+    box-sizing: border-box;    
+    background: #6a3e3e;
+    color: #f9f1f1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.profile-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;          
+    min-height: 200px;   
+    margin-bottom: -20px;  
+    box-sizing: border-box;
+}
+
+.sidebar .avatar {
+    width: 120px;
+    border-radius: 50%;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.sidebar-icons {
+    min-height: 32px;
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    align-items: center;
+}
+
+.sidebar-icons a {
+    font-size: 18px;
+    color: #f5f5f5;
+    transition: color 0.3s;
+}
+
+.sidebar-icons a:hover {
+    color: #e2b44d;
+}
+
+.sidebar h2 {
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.sidebar nav {
+    display: flex;
+    flex-direction: column;
+} 
+
+.sidebar nav a {
+    text-decoration: none;
+    font-size: 16px;
+    margin: 10px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #f5f5f5; 
+}
+
+.sidebar nav a:visited {
+    color: #f5f5f5;
+}
+.sidebar nav a:hover {
+    color: #ffffff;
+    text-shadow: 0 0 6px rgba(255, 255, 255, 0.6);
+}
+.sidebar nav a.active {
+    color: #e2b44d;
+    font-weight: bold;
+    text-shadow: 0 0 8px #e2b44d;
+}
+
+
+/* 404 page */
+.notfound {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;   
+    text-align: center;
+}
+
+.error-title {
+    font-size: 48px;
+    font-weight: bold;
+    color: #e2b44d; 
+    margin: 0 0 20px;
+}
+
+.error-message {
+    font-size: 20px;
+    margin: 10px 0 20px;
+    color: #eee;
+}
+
+.back-home a {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background: #6a3e3e;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 6px;
+    transition: background 0.3s;
+}
+
+.back-home a:hover {
+    background: #e2b44d;
+    color: #6a3e3e;
+}
+
+
+
+
+
+
+

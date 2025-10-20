@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>survival_analysis_2</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="../../css/github-plus.css" />
+  <link rel="stylesheet" href="../../css/code-theme.css" />
+  <link rel="stylesheet" href="../../css/github-markdown.css" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <base target="_blank">
+</head>
+<body>
+<h1 id="survival-analysis-ii-model-diagnostics-and-extensions">Survival Analysis II: Model Diagnostics and Extensions</h1>
+<blockquote>
+<p>📚 <em>Reference: <a href="https://en.wikipedia.org/wiki/Survival_analysis">Wikipedia - Survival analysis</a></em><br />
+🔗 <em>Previous Part: <a href="./survival_analysis_1.html">Survival Analysis I: Kaplan–Meier and Cox Model</a></em></p>
+</blockquote>
+<hr />
+<h2 id="overview">✨ Overview</h2>
+<p>After fitting a <strong>Cox proportional hazards model</strong>, it’s critical to assess whether the model assumptions hold and how well it predicts outcomes.<br />
+This notebook introduces key diagnostics, performance metrics, and extended techniques in survival analysis.</p>
+<p>We will cover: 1. Checking the proportional hazards (PH) assumption<br />
+2. Model diagnostics using residuals<br />
+3. Evaluating model performance (C-index, time-dependent ROC)<br />
+4. Visualizing effects (forest plots, adjusted survival curves)</p>
+<hr />
+<h2 id="checking-the-proportional-hazards-assumption">1. Checking the Proportional Hazards Assumption</h2>
+<p>The Cox model assumes that <strong>hazard ratios between groups are constant over time</strong>.<br />
+If this <em>proportional hazards (PH)</em> assumption is violated, model interpretations become invalid.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(survival)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(lung)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>fit_cox <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(time, status) <span class="sc">~</span> age <span class="sc">+</span> sex <span class="sc">+</span> ph.ecog, <span class="at">data =</span> lung)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Check proportional hazards assumption</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>ph_test <span class="ot">&lt;-</span> <span class="fu">cox.zph</span>(fit_cox)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>ph_test</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Arrange plots in one panel (e.g., 2 rows × 2 columns)</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">repr.plot.width =</span> <span class="dv">15</span>, <span class="at">repr.plot.height =</span> <span class="dv">5</span>, <span class="at">repr.plot.res =</span> <span class="dv">150</span>)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>))  </span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(ph_test)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Optional: reset layout</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>))</span></code></pre></div>
+<pre><code>Warning message in data(lung):
+“data set ‘lung’ not found”
+
+
+
+        chisq df    p
+age     0.188  1 0.66
+sex     2.305  1 0.13
+ph.ecog 2.054  1 0.15
+GLOBAL  4.464  3 0.22</code></pre>
+<figure>
+<img src="survival_analysis_2_files/survival_analysis_2_1_2.png" alt="png" /><figcaption aria-hidden="true">png</figcaption>
+</figure>
+<blockquote>
+<p><strong>Interpretation:</strong> - Each covariate’s p-value tests if its effect changes over time. - p &gt; 0.05 → no evidence of violation (assumption holds). - p &lt; 0.05 → effect may vary with time → consider time-dependent Cox model or stratification.</p>
+</blockquote>
+<blockquote>
+<p>The smooth lines for age, sex, and ph.ecog are nearly flat around zero, and all p-values &gt; 0.05 — indicating no strong time-dependent effects.<br />
+The proportional hazards assumption holds for this Cox model.</p>
+</blockquote>
+<hr />
+<h2 id="model-diagnostics-with-residuals">2. Model Diagnostics with Residuals</h2>
+<p>Residuals in survival analysis help identify <strong>outliers</strong>, <strong>influential observations</strong>, <strong>and model fit issues</strong>.</p>
+<p><strong>Common residuals</strong></p>
+<table>
+<thead>
+<tr>
+<th>
+Residual Type
+</th>
+<th>
+Function
+</th>
+<th>
+Purpose
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Schoenfeld
+</td>
+<td>
+<code>cox.zph()</code>
+</td>
+<td>
+Tests PH assumption
+</td>
+</tr>
+<tr>
+<td>
+Martingale
+</td>
+<td>
+<code>residuals(fit, type="martingale")</code>
+</td>
+<td>
+Detects non-linearity in covariate effects
+</td>
+</tr>
+<tr>
+<td>
+Deviance
+</td>
+<td>
+<code>residuals(fit, type="deviance")</code>
+</td>
+<td>
+Identifies outliers and influential points
+</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Example: Deviance residuals plot</strong></p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(survminer)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggcoxdiagnostics</span>(</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    fit_cox,</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">type =</span> <span class="st">&quot;deviance&quot;</span>,</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">linear.predictions =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">ggtheme =</span> <span class="fu">theme_bw</span>()</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<pre><code>Loading required package: ggplot2
+
+Loading required package: ggpubr
+
+
+Attaching package: ‘survminer’
+
+
+The following object is masked from ‘package:survival’:
+
+    myeloma
+
+
+[1m[22m`geom_smooth()` using formula = &#39;y ~ x&#39;</code></pre>
+<figure>
+<img src="survival_analysis_2_files/survival_analysis_2_6_1.png" alt="png" /><figcaption aria-hidden="true">png</figcaption>
+</figure>
+<p><strong>Interpretation:</strong> </br> Points far from zero may indicate influential observations or poor model fit. If patterns appear, consider non-linear terms or interaction effects.</p>
+<hr />
+<h2 id="model-performance-evaluation">3. Model Performance Evaluation</h2>
+<h3 id="concordance-index-c-index">3.1 Concordance Index (C-index)</h3>
+<p>The C-index measures the model’s ability to correctly rank survival times:</p>
+<p>C-index ≈ 0.5 → random prediction </br> C-index ≈ 1.0 → perfect discrimination</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit_cox)<span class="sc">$</span>concordance</span></code></pre></div>
+<style>
+.dl-inline {width: auto; margin:0; padding: 0}
+.dl-inline>dt, .dl-inline>dd {float: none; width: auto; display: inline-block}
+.dl-inline>dt::after {content: ":\0020"; padding-right: .5ex}
+.dl-inline>dt:not(:first-of-type) {padding-left: .5ex}
+</style>
+<dl class="dl-inline">
+<dt>
+C
+</dt>
+<dd>
+0.637135493000455
+</dd>
+<dt>
+se(C)
+</dt>
+<dd>
+0.0250679738530796
+</dd>
+</dl>
+<h3 id="time-dependent-roc-curves">3.2 Time-dependent ROC Curves</h3>
+<p>ROC curves can be extended to survival data to evaluate predictive accuracy over time.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove rows with any missing values in variables used by the model</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>lung_clean <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(lung[, <span class="fu">c</span>(<span class="st">&quot;time&quot;</span>, <span class="st">&quot;status&quot;</span>, <span class="st">&quot;age&quot;</span>, <span class="st">&quot;sex&quot;</span>, <span class="st">&quot;ph.ecog&quot;</span>)])</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>fit_cox <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(time, status) <span class="sc">~</span> age <span class="sc">+</span> sex <span class="sc">+</span> ph.ecog, <span class="at">data =</span> lung_clean)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>risk_score <span class="ot">&lt;-</span> <span class="fu">predict</span>(fit_cox, <span class="at">type =</span> <span class="st">&quot;lp&quot;</span>)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Check all vectors have same length</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(risk_score) <span class="sc">==</span> <span class="fu">nrow</span>(lung_clean)</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Now safe to run timeROC</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(timeROC)</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">repr.plot.width =</span> <span class="dv">5</span>, <span class="at">repr.plot.height =</span> <span class="dv">5</span>, <span class="at">repr.plot.res =</span> <span class="dv">150</span>)</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>roc_result <span class="ot">&lt;-</span> <span class="fu">timeROC</span>(</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">T =</span> lung_clean<span class="sc">$</span>time,</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">delta =</span> lung_clean<span class="sc">$</span>status,</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">marker =</span> <span class="sc">-</span>risk_score, <span class="co"># reverse sign</span></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">cause =</span> <span class="dv">1</span>,</span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">times =</span> <span class="fu">c</span>(<span class="dv">200</span>, <span class="dv">400</span>, <span class="dv">600</span>, <span class="dv">800</span>),</span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">iid =</span> <span class="cn">TRUE</span></span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(roc_result, <span class="at">time =</span> <span class="dv">400</span>)</span></code></pre></div>
+<p>TRUE</p>
+<figure>
+<img src="survival_analysis_2_files/survival_analysis_2_11_1.png" alt="png" /><figcaption aria-hidden="true">png</figcaption>
+</figure>
+<blockquote>
+<p><strong>Interpretation:</strong></br> The AUC at each time point shows how well the model discriminates between high- and low-risk individuals over time.</p>
+</blockquote>
+<blockquote>
+<p><strong>Why do we need to reverse the risk score sign?</strong></p>
+<p>In the <strong>Cox proportional hazards model</strong>, the predicted linear predictor (<code>lp</code>) represents the <strong>log hazard ratio</strong> — that is, larger values correspond to <strong>higher hazard</strong>, <strong>shorter survival</strong>, and thus <strong>worse outcomes</strong>.</p>
+<p>However, the <code>timeROC()</code> function interprets its input <code>marker</code> oppositely: it assumes that <strong>larger marker values indicate better survival</strong> (lower risk).</p>
+<p>As a result, if we directly use <code>predict(fit_cox, type = "lp")</code> as the marker, the function will think that “high-risk” individuals are “low-risk,” producing an inverted ROC curve (below the diagonal) and AUC &lt; 0.5.</p>
+<p>✅ To align the directions, we reverse the sign of the linear predictor:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>marker <span class="ot">=</span> <span class="sc">-</span><span class="fu">predict</span>(fit_cox, <span class="at">type =</span> <span class="st">&quot;lp&quot;</span>)</span></code></pre></div>
+<h2 id="after-this-correction-higher-marker-values-correctly-indicate-better-survival-and-the-roc-curve-and-auc-will-reflect-the-true-predictive-performance-of-the-model.">After this correction, higher marker values correctly indicate better survival, and the ROC curve and AUC will reflect the true predictive performance of the model.</h2>
+</blockquote>
+<h2 id="visualizing-model-effects">4. Visualizing Model Effects</h2>
+<h3 id="forest-plot-of-hazard-ratios">4.1 Forest Plot of Hazard Ratios</h3>
+<p>This visualization summarizes:</br> - Hazard ratio (HR) for each covariate - 95% confidence interval - Significance level (p-value)</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggforest</span>(fit_cox, <span class="at">data =</span> lung)</span></code></pre></div>
+<figure>
+<img src="survival_analysis_2_files/survival_analysis_2_14_0.png" alt="png" /><figcaption aria-hidden="true">png</figcaption>
+</figure>
+<h3 id="adjusted-survival-curves">4.2 Adjusted Survival Curves</h3>
+<p>Adjusted survival curves display survival probabilities for each group after controlling for other covariates.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggadjustedcurves</span>(fit_cox, <span class="at">data =</span> lung, <span class="at">variable =</span> <span class="st">&quot;sex&quot;</span>)</span></code></pre></div>
+<figure>
+<img src="survival_analysis_2_files/survival_analysis_2_16_0.png" alt="png" /><figcaption aria-hidden="true">png</figcaption>
+</figure>
+<blockquote>
+<p><strong>Interpretation:</strong></br> Unlike raw Kaplan–Meier curves, these show differences that persist after adjustment — a fairer comparison.</p>
+</blockquote>
+<hr />
+<h2 id="extensions-to-the-cox-model">5. Extensions to the Cox Model</h2>
+<p>When the PH assumption fails or the relationship is complex, extensions can be used:</p>
+<table>
+<thead>
+<tr>
+<th>
+Extension
+</th>
+<th>
+Function / Package
+</th>
+<th>
+Description
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Stratified Cox model
+</td>
+<td>
+<code>coxph(… + strata(var))</code>
+</td>
+<td>
+Allows baseline hazard to differ by strata
+</td>
+</tr>
+<tr>
+<td>
+Time-dependent covariates
+</td>
+<td>
+<code>tmerge()</code> + <code>coxph()</code>
+</td>
+<td>
+Covariates that vary with time (e.g., changing biomarkers)
+</td>
+</tr>
+<tr>
+<td>
+Frailty models
+</td>
+<td>
+<code>coxme::coxme()</code>
+</td>
+<td>
+Adds random effects to handle group-level heterogeneity
+</td>
+</tr>
+<tr>
+<td>
+Accelerated Failure Time (AFT)
+</td>
+<td>
+<code>survreg()</code>
+</td>
+<td>
+Models log(time) directly when PH assumption fails
+</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="summary">6. Summary</h2>
+<table>
+<thead>
+<tr>
+<th>
+Goal
+</th>
+<th>
+Recommended Method
+</th>
+<th>
+Key Function
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Check PH assumption
+</td>
+<td>
+Schoenfeld residuals
+</td>
+<td>
+<code>cox.zph()</code>
+</td>
+</tr>
+<tr>
+<td>
+Detect outliers
+</td>
+<td>
+Deviance residuals
+</td>
+<td>
+<code>ggcoxdiagnostics()</code>
+</td>
+</tr>
+<tr>
+<td>
+Evaluate performance
+</td>
+<td>
+Concordance index, timeROC
+</td>
+<td>
+<code>summary()</code>, <code>timeROC()</code>
+</td>
+</tr>
+<tr>
+<td>
+Visualize covariate effects
+</td>
+<td>
+Forest plot, adjusted curves
+</td>
+<td>
+<code>ggforest()</code>, <code>ggadjustedcurves()</code>
+</td>
+</tr>
+<tr>
+<td>
+Handle PH violation
+</td>
+<td>
+Stratified / AFT / Time-dependent models
+</td>
+<td>
+<code>coxph()</code>, <code>survreg()</code>
+</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="next-step">🔗 Next Step</h2>
+<p>In the following notebook — <strong>Survival Analysis III: Parametric Models, Competing Risks, and Nomogram Visualization</strong>, we’ll extend survival analysis beyond semi-parametric Cox models.<br />
+You’ll explore <strong>parametric survival distributions</strong> (e.g., Weibull, Log-normal), learn how to handle <strong>competing risks</strong>, and visualize predictions using <strong>nomograms</strong> for clear clinical interpretation and decision support.</p>
+<script type="text/javascript">
+// @ts-nocheck
+
+document.addEventListener("DOMContentLoaded", () => {
+document.querySelectorAll("div.sourceCode").forEach(block => {
+    // Create "Copy" button
+    const button = document.createElement("button");
+    button.className = "copy-btn";
+    button.innerText = "Copy";
+    block.prepend(button);
+
+    // Get language name from <pre class="sourceCode bash">...
+    const pre = block.querySelector("pre");
+    const lang = (pre.className.match(/sourceCode\s+(\w+)/) || [])[1];
+    if (lang) block.setAttribute("data-lang", lang);
+
+    // Copy functionality
+    button.addEventListener("click", async () => {
+        const code = block.querySelector("code").innerText;
+        try {
+        await navigator.clipboard.writeText(code);
+        button.innerText = "Copied!";
+        button.style.background = "#d1f7c4";
+        setTimeout(() => {
+            button.innerText = "Copy";
+            button.style.background = "#f6f8fa";
+        }, 1800);
+        } catch (err) {
+        button.innerText = "Error";
+        console.error("Copy failed:", err);
+        }
+    });
+    });
+});
+
+/* ===== Responsive Image Auto Sizing ===== */
+document.addEventListener("DOMContentLoaded", function() {
+    document.querySelectorAll("img").forEach(img => {
+    img.onload = () => {
+        const ratio = img.naturalWidth / img.naturalHeight;
+
+        // 标准分类逻辑：竖图小、横图大
+        if (ratio < 0.9) {
+        img.classList.add("portrait");  // 竖图
+        } else if (ratio > 1.5) {
+        img.classList.add("landscape"); // 宽图
+        } else {
+        img.classList.add("square");    // 方图
+        }
+    };
+    });
+});
+
+/* ===== TOC style determination ===== */
+document.addEventListener("DOMContentLoaded", function() {
+    // 找到内容主体
+    const content = document.querySelector("main.content");
+    if (!content) return;
+
+    // 创建 TOC 容器
+    const toc = document.createElement("nav");
+    toc.id = "auto-toc";
+    toc.innerHTML = "<h3>📑 Contents</h3><ul></ul>";
+
+    // 把 TOC 插到 content 之前
+    const container = document.createElement("div");
+    container.className = "toc-container";
+    content.parentNode.insertBefore(container, content);
+    container.appendChild(toc);
+    container.appendChild(content);
+
+    // 扫描标题（支持 h1-h3）
+    const headers = content.querySelectorAll("h1, h2, h3");
+    const list = toc.querySelector("ul");
+
+    headers.forEach(header => {
+    const id = header.id || header.textContent.trim().toLowerCase().replace(/[^\w]+/g, "-");
+    header.id = id; // 确保有 id
+
+    const li = document.createElement("li");
+    li.innerHTML = `<a href="#${id}">${header.textContent}</a>`;
+    list.appendChild(li);
+    });
+
+    // 平滑滚动
+    list.querySelectorAll("a").forEach(link => {
+    link.addEventListener("click", e => {
+        e.preventDefault();
+        const target = document.querySelector(link.getAttribute("href"));
+        if (target) {
+        window.scrollTo({ top: target.offsetTop - 20, behavior: "smooth" });
+        }
+    });
+    });
+
+  // 滚动高亮当前章节
+    const links = list.querySelectorAll("a");
+    const sections = Array.from(links).map(link => document.querySelector(link.getAttribute("href")));
+
+    window.addEventListener("scroll", () => {
+    const scrollPos = window.scrollY + 100;
+    sections.forEach((sec, i) => {
+        if (sec && sec.offsetTop <= scrollPos && sec.offsetTop + sec.offsetHeight > scrollPos) {
+        links.forEach(l => l.classList.remove("active"));
+        links[i].classList.add("active");
+        }
+    });
+    });
+});
+</script>
+</body>
+</html>

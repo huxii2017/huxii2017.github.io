@@ -1,0 +1,1184 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>A-B_test_1</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="../../css/github-plus.css" />
+  <link rel="stylesheet" href="../../css/code-theme.css" />
+  <link rel="stylesheet" href="../../css/github-markdown.css" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <base target="_blank">
+</head>
+<body>
+<h1 id="ab-testing-and-experimental-design-overview">A/B Testing and Experimental Design Overview</h1>
+<p>In this note we introduce the concept of A/B testing, its statistical foundation, and the principles of experimental design (DOE). A/B testing is a controlled experiment comparing two versions (A and B) to evaluate which performs better on a key metric. It is widely used in clinical trials, digital marketing, and product optimization.</p>
+<details open>
+<summary>
+<b>🗂️ Table of Contents</b>
+</summary>
+<p><a href="#introduction">1. What is A/B Testing?</a></p>
+<p><a href="#Steps">2. How to Conduct an A/B Test</a></p>
+<p><a href="#Hypotheses">3. Statistical Foundation</a></p>
+<p><a href="#Example">4.Example Based on Simulated Data</a></p>
+<p><a href="#Extension">5.Extension: A/B Test with Binary Outcomes</a></p>
+<p><a href="#AB-Table">6. Comprehensive A/B Test Design Summary</a></p>
+<p><a href="#DOE">7. Notes on DOE (Design of Experiments)</a></p>
+<p><a href="#Summary">8. Summary and Next Steps</a></p>
+</details>
+<hr />
+<h2 id="introduction">1. What is A/B Testing?</h2>
+<h3 id="definition">Definition</h3>
+<p>A/B testing (also called split testing) is a method of comparing two variants to determine which one performs better. - <strong>A (Control group)</strong>: existing version - <strong>B (Treatment group)</strong>: new version</p>
+<p>In biomedical research, an A/B test corresponds to comparing two groups — typically a <strong>control group (healthy)</strong> and an <strong>experimental group (disease or treatment)</strong>.</p>
+<hr />
+<h2 id="Steps">2. How to Conduct an A/B Test</h2>
+<h3 id="steps">Steps</h3>
+<ol type="1">
+<li>Define the hypothesis</li>
+<li>Choose the key metric</li>
+<li>Randomly assign subjects</li>
+<li>Run the experiment</li>
+<li>Analyze results with statistical tests</li>
+<li>Interpret the outcome and make decisions</li>
+</ol>
+<hr />
+<h2 id="Hypotheses">3. Statistical Foundation</h2>
+<h3 id="null-and-alternative-hypotheses">Null and Alternative Hypotheses</h3>
+<ul>
+<li>H₀ (null): No difference between A and B</li>
+<li>H₁ (alt): A and B have different effects</li>
+</ul>
+<p>The main idea is to use <strong>statistical hypothesis testing</strong> to determine whether observed differences are due to chance.</p>
+<hr />
+<h2 id="Example"><strong>4.Example Based on Simulated Data</strong></h2>
+<p>We will explore an example comparing <strong>DNA methylation levels</strong> between healthy individuals and patients with diabetes.</p>
+<blockquote>
+<p>Is the mean methylation level at a specific CpG site different between healthy subjects and diabetic patients?</p>
+</blockquote>
+<ul>
+<li><strong>Group A (Control):</strong> Healthy subjects<br />
+</li>
+<li><strong>Group B (Experimental):</strong> Diabetic patients</li>
+</ul>
+<h3 id="hypotheses">Hypotheses</h3>
+<ul>
+<li>H₀ (Null): Mean methylation in healthy = mean methylation in diabetic</li>
+<li>H₁ (Alternative): Mean methylation in healthy ≠ mean methylation in diabetic</li>
+</ul>
+<p><strong>Example in python:</strong> </br></p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> stats</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Simulate methylation percentage data (0~100%)</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">42</span>)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>healthy <span class="op">=</span> np.random.normal(loc<span class="op">=</span><span class="dv">72</span>, scale<span class="op">=</span><span class="dv">5</span>, size<span class="op">=</span><span class="dv">50</span>)   <span class="co"># Healthy individuals; loc: Mean/μ, scale:Standard Deviation/σ, size: Sample Size/n</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>diabetic <span class="op">=</span> np.random.normal(loc<span class="op">=</span><span class="dv">65</span>, scale<span class="op">=</span><span class="dv">6</span>, size<span class="op">=</span><span class="dv">50</span>)  <span class="co"># Patients with diabetes</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a DataFrame for summary</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;Group&quot;</span>: [<span class="st">&quot;Healthy&quot;</span>]<span class="op">*</span><span class="dv">50</span> <span class="op">+</span> [<span class="st">&quot;Diabetic&quot;</span>]<span class="op">*</span><span class="dv">50</span>,</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;Methylation (%)&quot;</span>: np.concatenate([healthy, diabetic])</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>df.head()</span></code></pre></div>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th>
+</th>
+<th>
+Group
+</th>
+<th>
+Methylation (%)
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>
+0
+</th>
+<td>
+Healthy
+</td>
+<td>
+74.483571
+</td>
+</tr>
+<tr>
+<th>
+1
+</th>
+<td>
+Healthy
+</td>
+<td>
+71.308678
+</td>
+</tr>
+<tr>
+<th>
+2
+</th>
+<td>
+Healthy
+</td>
+<td>
+75.238443
+</td>
+</tr>
+<tr>
+<th>
+3
+</th>
+<td>
+Healthy
+</td>
+<td>
+79.615149
+</td>
+</tr>
+<tr>
+<th>
+4
+</th>
+<td>
+Healthy
+</td>
+<td>
+70.829233
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Data Visualization</strong></p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">6</span>,<span class="dv">4</span>))</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>sns.boxplot(x<span class="op">=</span><span class="st">&quot;Group&quot;</span>, y<span class="op">=</span><span class="st">&quot;Methylation (%)&quot;</span>, data<span class="op">=</span>df, palette<span class="op">=</span><span class="st">&quot;Set2&quot;</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>sns.stripplot(x<span class="op">=</span><span class="st">&quot;Group&quot;</span>, y<span class="op">=</span><span class="st">&quot;Methylation (%)&quot;</span>, data<span class="op">=</span>df, color<span class="op">=</span><span class="st">&quot;black&quot;</span>, alpha<span class="op">=</span><span class="fl">0.5</span>)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">&quot;DNA Methylation Level at CpG Site X&quot;</span>)</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div>
+<pre><code>/var/folders/ck/p6l0lph94g74czy0y8qbd7cr0000gn/T/ipykernel_82357/4127173735.py:4: FutureWarning: 
+
+Passing `palette` without assigning `hue` is deprecated and will be removed in v0.14.0. Assign the `x` variable to `hue` and set `legend=False` for the same effect.
+
+  sns.boxplot(x=&quot;Group&quot;, y=&quot;Methylation (%)&quot;, data=df, palette=&quot;Set2&quot;)</code></pre>
+<figure>
+<img src="A-B_test_1_files/A-B_test_1_4_1.png" alt="png" /><figcaption aria-hidden="true">png</figcaption>
+</figure>
+<p><strong>Statistical Test (t-test)</strong></p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Perform independent two-sample t-test</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>t_stat, p_val <span class="op">=</span> stats.ttest_ind(healthy, diabetic, equal_var<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f&quot;T-statistic = </span><span class="sc">{</span>t_stat<span class="sc">:.3f}</span><span class="ss">&quot;</span>)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f&quot;P-value = </span><span class="sc">{</span>p_val<span class="sc">:.4e}</span><span class="ss">&quot;</span>)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> p_val <span class="op">&lt;</span> <span class="fl">0.05</span>:</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">&quot;Result: Significant difference detected (Reject H0)&quot;</span>)</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">&quot;Result: No significant difference (Fail to reject H0)&quot;</span>)</span></code></pre></div>
+<pre><code>T-statistic = 5.806
+P-value = 8.1347e-08
+Result: Significant difference detected (Reject H0)</code></pre>
+<h3 id="result-interpretation">Result Interpretation</h3>
+<ul>
+<li>If p-value &lt; 0.05, there is <strong>a statistically significant difference</strong> in methylation between healthy and diabetic groups.</li>
+<li>This suggests that diabetes may be associated with altered methylation at this CpG site.</li>
+</ul>
+<h3 id="clinical-meaning">Clinical Meaning</h3>
+<p>In real biomedical research, such findings may indicate: - Disease-related epigenetic regulation; - Potential biomarker discovery; - Or targets for further functional studies.</p>
+<hr />
+<h2 id="Extension">5.Extension: A/B Test with Binary Outcomes</h2>
+<p>In some clinical studies, the outcome is binary (e.g., “responded to treatment” or “did not respond”). In such cases, we use <strong>Z-test or χ² test for proportions</strong>, not a t-test.</p>
+<h3 id="example-blood-pressure-response-rate">Example: Blood Pressure Response Rate</h3>
+<div class="sourceCode" id="cb6"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example: Hypertension treatment response</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>respond_A <span class="op">=</span> <span class="dv">32</span>  <span class="co"># responders in control group</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>total_A   <span class="op">=</span> <span class="dv">100</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>respond_B <span class="op">=</span> <span class="dv">45</span>  <span class="co"># responders in treatment group</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>total_B   <span class="op">=</span> <span class="dv">100</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> statsmodels.stats.proportion <span class="im">import</span> proportions_ztest</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>stat, p <span class="op">=</span> proportions_ztest([respond_A, respond_B], [total_A, total_B])</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f&quot;Z-statistic = </span><span class="sc">{</span>stat<span class="sc">:.3f}</span><span class="ss">&quot;</span>)</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f&quot;P-value = </span><span class="sc">{p:.4f}</span><span class="ss">&quot;</span>)</span></code></pre></div>
+<pre><code>Z-statistic = -1.889
+P-value = 0.0589</code></pre>
+<p><strong>Interpretation</strong>: - H₀: Response rate same in both groups - If p &lt; 0.05 → treatment significantly improves blood pressure control.</p>
+<hr />
+<h2 id="AB-Table">6. Comprehensive A/B Test Design Summary</h2>
+<table border="1" style="border-collapse:collapse; width:100%; text-align:left;">
+<thead style="background-color:#f5f5f5;">
+<tr>
+<th>
+Category
+</th>
+<th>
+Design Type
+</th>
+<th>
+Description / Purpose
+</th>
+<th>
+Example Scenario
+</th>
+<th>
+Statistical Test
+</th>
+<th>
+Python Function
+</th>
+<th>
+R Function
+</th>
+</tr>
+</thead>
+<tbody>
+<!-- I. Basic Designs -->
+<tr>
+<td rowspan="3">
+<b>I. Basic Designs</b>
+</td>
+<td>
+Simple A/B Test (Two-sample)
+</td>
+<td>
+Compare one variable between two independent groups.
+</td>
+<td>
+Healthy vs. diabetic group; old vs. new model.
+</td>
+<td>
+t-test, χ²-test, Mann–Whitney U
+</td>
+<td>
+<code>scipy.stats.ttest_ind()</code>, <code>statsmodels.stats.proportion.proportions_ztest()</code>, <code>scipy.stats.mannwhitneyu()</code>
+</td>
+<td>
+<code>t.test()</code>, <code>prop.test()</code>, <code>wilcox.test()</code>
+</td>
+</tr>
+<tr>
+<td>
+Paired (Within-subject) Design
+</td>
+<td>
+Each subject serves as its own control (before/after comparison).
+</td>
+<td>
+Patient blood pressure before vs. after treatment.
+</td>
+<td>
+Paired t-test, Wilcoxon signed-rank
+</td>
+<td>
+<code>scipy.stats.ttest_rel()</code>, <code>pingouin.ttest()</code>
+</td>
+<td>
+<code>t.test(paired=TRUE)</code>, <code>wilcox.test(paired=TRUE)</code>
+</td>
+</tr>
+<tr>
+<td>
+One-sample Test
+</td>
+<td>
+Compare one group’s mean to a reference value.
+</td>
+<td>
+Average HbA1c vs. clinical threshold (6.5%).
+</td>
+<td>
+One-sample t-test
+</td>
+<td>
+<code>scipy.stats.ttest_1samp()</code>
+</td>
+<td>
+<code>t.test(mu=…)</code>
+</td>
+</tr>
+<!-- II. Multi-group Designs -->
+<tr>
+<td rowspan="4">
+<b>II. Multi-group Designs</b>
+</td>
+<td>
+A/B/n Test (Multiple variants)
+</td>
+<td>
+Compare &gt;2 variants simultaneously.
+</td>
+<td>
+Three drug doses (low/mid/high).
+</td>
+<td>
+ANOVA, Kruskal–Wallis
+</td>
+<td>
+<code>scipy.stats.f_oneway()</code>, <code>pingouin.anova()</code>
+</td>
+<td>
+<code>aov()</code>, <code>Kruskal.test()</code>
+</td>
+</tr>
+<tr>
+<td>
+Factorial Design
+</td>
+<td>
+Study effects of multiple factors and interactions.
+</td>
+<td>
+2×2 design: Drug × Dosage.
+</td>
+<td>
+Two-way ANOVA, Linear model
+</td>
+<td>
+<code>statsmodels.formula.api.ols()</code>, <code>pingouin.anova()</code>
+</td>
+<td>
+<code>aov()</code>, <code>lm()</code>
+</td>
+</tr>
+<tr>
+<td>
+Repeated Measures Design
+</td>
+<td>
+Same subjects measured under multiple conditions.
+</td>
+<td>
+Longitudinal biomarker measurements.
+</td>
+<td>
+Repeated-measures ANOVA / Mixed model
+</td>
+<td>
+<code>pingouin.rm_anova()</code>, <code>statsmodels.MixedLM()</code>
+</td>
+<td>
+<code>ezANOVA()</code>, <code>lme4::lmer()</code>
+</td>
+</tr>
+<tr>
+<td>
+Crossover Design
+</td>
+<td>
+Each subject receives multiple treatments in random order.
+</td>
+<td>
+Drug A → washout → Drug B.
+</td>
+<td>
+Paired t-test / Linear mixed model
+</td>
+<td>
+<code>statsmodels.MixedLM()</code>
+</td>
+<td>
+<code>nlme::lme()</code>
+</td>
+</tr>
+<!-- III. Stratified & Controlled Designs -->
+<tr>
+<td rowspan="4">
+<b>III. Stratified &amp; Controlled Designs</b>
+</td>
+<td>
+Randomized Block Design
+</td>
+<td>
+Subjects grouped into homogeneous blocks before randomization.
+</td>
+<td>
+Age- or sex-stratified clinical trial.
+</td>
+<td>
+ANOVA with blocking factor
+</td>
+<td>
+<code>statsmodels.formula.api.ols(“Y ~ Treatment + Block”)</code>
+</td>
+<td>
+<code>aov(Y ~ Treatment + Block)</code>
+</td>
+</tr>
+<tr>
+<td>
+Matched-pairs Design
+</td>
+<td>
+Match individuals by confounding variables before group assignment.
+</td>
+<td>
+Patients matched by age/BMI before treatment.
+</td>
+<td>
+Paired analysis
+</td>
+<td>
+<code>scipy.stats.ttest_rel()</code>
+</td>
+<td>
+<code>t.test(paired=TRUE)</code>, <code>mcnemar.test()</code>
+</td>
+</tr>
+<tr>
+<td>
+Covariate-adjusted Design
+</td>
+<td>
+Include covariates to reduce variance and bias.
+</td>
+<td>
+Adjust for baseline BMI, age, etc.
+</td>
+<td>
+ANCOVA, Regression model
+</td>
+<td>
+<code>statsmodels.formula.api.ols()</code>
+</td>
+<td>
+<code>car::Anova()</code>, <code>lm()</code>
+</td>
+</tr>
+<tr>
+<td>
+Cluster-randomized Design
+</td>
+<td>
+Randomization occurs at group level (e.g., hospital, region).
+</td>
+<td>
+Compare hospitals with different policies.
+</td>
+<td>
+Hierarchical / Mixed-effects model
+</td>
+<td>
+<code>statsmodels.MixedLM()</code>
+</td>
+<td>
+<code>lme4::lmer()</code>
+</td>
+</tr>
+<!-- IV. Adaptive & Sequential Designs -->
+<tr>
+<td rowspan="4">
+<b>IV. Adaptive &amp; Sequential Designs</b>
+</td>
+<td>
+Sequential Test (SPRT)
+</td>
+<td>
+Analyze data continuously and stop when significant.
+</td>
+<td>
+Interim analysis in clinical trial.
+</td>
+<td>
+Sequential probability ratio test
+</td>
+<td>
+<code>Sequential Probability Test (custom)</code>
+</td>
+<td>
+<code>Sequential::sequential.test()</code>
+</td>
+</tr>
+<tr>
+<td>
+Adaptive Design
+</td>
+<td>
+Modify allocation or sample size based on interim data.
+</td>
+<td>
+Adaptive dose-finding in phase II trial.
+</td>
+<td>
+Group-sequential / Bayesian adaptive
+</td>
+<td>
+<code>custom Bayesian / pymc</code>
+</td>
+<td>
+<code>gsDesign::gsDesign()</code>, <code>bayesAB</code>
+</td>
+</tr>
+<tr>
+<td>
+Multi-armed Bandit (MAB)
+</td>
+<td>
+Dynamically allocate more samples to better-performing arms.
+</td>
+<td>
+Real-time website optimization.
+</td>
+<td>
+Bayesian / Thompson Sampling / UCB
+</td>
+<td>
+<code>mabwiser</code>, <code>scikit-optimize</code>
+</td>
+<td>
+<code>contextual</code> (R package)
+</td>
+</tr>
+<tr>
+<td>
+Bayesian A/B Test
+</td>
+<td>
+Estimate posterior probability that B &gt; A.
+</td>
+<td>
+Drug efficacy probability modeling.
+</td>
+<td>
+Posterior estimation, Bayes factor
+</td>
+<td>
+<code>pymc</code>, <code>pingouin.bayesfactor_ttest()</code>
+</td>
+<td>
+<code>BayesFactor::ttestBF()</code>
+</td>
+</tr>
+<!-- V. Observational & Real-world Designs -->
+<tr>
+<td rowspan="4">
+<b>V. Observational &amp; Real-world Designs</b>
+</td>
+<td>
+Propensity Score Matching (PSM)
+</td>
+<td>
+Simulate randomization using observational data.
+</td>
+<td>
+Drug vs. no-drug comparison in real-world registry.
+</td>
+<td>
+Matching estimator / Logistic regression
+</td>
+<td>
+<code>pymatch</code>, <code>statsmodels.Logit()</code>
+</td>
+<td>
+<code>MatchIt::matchit()</code>, <code>glm()</code>
+</td>
+</tr>
+<tr>
+<td>
+Difference-in-Differences (DiD)
+</td>
+<td>
+Compare pre/post trends between treated and control groups.
+</td>
+<td>
+Hospital policy change impact.
+</td>
+<td>
+Regression with interaction term
+</td>
+<td>
+<code>statsmodels.formula.api.ols("Y ~ Group*Time")</code>
+</td>
+<td>
+<code>did::ATT()</code>, <code>lm(Y ~ Group*Time)</code>
+</td>
+</tr>
+<tr>
+<td>
+Synthetic Control Design
+</td>
+<td>
+Construct a “virtual control group” from historical data.
+</td>
+<td>
+Regional intervention evaluation.
+</td>
+<td>
+Weighted regression model
+</td>
+<td>
+<code>econml</code>, <code>syntheticcontrol</code>
+</td>
+<td>
+<code>Synth::synth()</code>
+</td>
+</tr>
+<tr>
+<td>
+Time-series A/B Test
+</td>
+<td>
+Compare pre/post patterns in sequential data.
+</td>
+<td>
+New algorithm rollout by week.
+</td>
+<td>
+Interrupted time-series analysis
+</td>
+<td>
+<code>statsmodels.tsa.ARIMA()</code>, <code>ruptures</code>
+</td>
+<td>
+<code>CausalImpact::CausalImpact()</code>
+</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>Choose design type</strong> based on your data structure (independent vs. paired), number of factors, and feasibility of randomization.</li>
+<li><strong>A/B test ≠ one method</strong>, but a family of controlled comparisons under different experimental constraints.</li>
+<li><strong>Clinical studies</strong> often use Randomized Controlled Trials (RCTs), which are conceptually an A/B test with strong DOE principles.</li>
+<li><strong>Online experiments</strong> (e.g., adaptive or MAB) use the same logic but optimize real-time learning and allocation efficiency.</li>
+</ul>
+<hr />
+<h2 id="DOE">7. Notes on DOE (Design of Experiments)</h2>
+<p>Design of Experiments (DOE) is the structured framework that ensures an A/B test or any scientific experiment yields <strong>valid, unbiased, and interpretable results</strong>.<br />
+It answers three key questions:</br> 1️⃣ What factors should be varied?<br />
+2️⃣ How should samples be assigned?<br />
+3️⃣ How can we minimize random noise and confounding bias?</p>
+<hr />
+<h3 id="core-principles-of-doe">7.1 Core Principles of DOE</h3>
+<h4 id="randomization">1️⃣ Randomization</h4>
+<ul>
+<li><strong>Definition:</strong> Randomly assign subjects (or samples) to groups to eliminate systematic bias.<br />
+</li>
+<li><strong>Purpose:</strong> Ensure that unobserved variables are evenly distributed across groups.<br />
+</li>
+<li><strong>Example:</strong> In a clinical trial, patients are randomly assigned to “new drug” or “placebo” groups.<br />
+</li>
+<li><strong>Implementation:</strong> <code>np.random.choice()</code> in Python, or <code>sample()</code> in R.</li>
+</ul>
+<h4 id="replication">2️⃣ Replication</h4>
+<ul>
+<li><strong>Definition:</strong> Repeat the experiment or include sufficient subjects per group to estimate variability.<br />
+</li>
+<li><strong>Purpose:</strong> Increases statistical power and reliability.<br />
+</li>
+<li><strong>Example:</strong> Enroll ≥50 subjects per group instead of 5; repeat assays multiple times.<br />
+</li>
+<li><strong>Tip:</strong> Use power analysis (e.g., <code>statsmodels.stats.power.TTestIndPower</code>) to determine the minimum sample size.</li>
+</ul>
+<h4 id="blocking-or-stratification">3️⃣ Blocking (or Stratification)</h4>
+<ul>
+<li><strong>Definition:</strong> Divide subjects into homogeneous subgroups (“blocks”) before random assignment.<br />
+</li>
+<li><strong>Purpose:</strong> Reduce the impact of known confounding factors (e.g., age, gender, batch effect).<br />
+</li>
+<li><strong>Example:</strong> In methylation studies, block by gender since males/females often differ in baseline methylation.<br />
+</li>
+<li><strong>Implementation:</strong> Randomize <em>within</em> each block.</li>
+</ul>
+<h4 id="control-group">4️⃣ Control Group</h4>
+<ul>
+<li><strong>Definition:</strong> A baseline group that receives standard treatment or no intervention.<br />
+</li>
+<li><strong>Purpose:</strong> Provides a reference point to measure the true effect of the experimental condition.<br />
+</li>
+<li><strong>Example:</strong> Compare methylation changes in treated vs. untreated cells.</li>
+</ul>
+<h4 id="blinding">5️⃣ Blinding</h4>
+<ul>
+<li><strong>Definition:</strong> Keep subjects and/or evaluators unaware of group assignments.<br />
+</li>
+<li><strong>Purpose:</strong> Prevent bias in observation or outcome measurement.<br />
+</li>
+<li><strong>Example:</strong> Double-blind drug trial where neither patients nor doctors know who received the new drug.</li>
+</ul>
+<h4 id="random-sampling">6️⃣ Random Sampling</h4>
+<ul>
+<li><strong>Definition:</strong> Draw samples from the population in a random, representative way.<br />
+</li>
+<li><strong>Purpose:</strong> Allows statistical inference to generalize to the broader population.<br />
+</li>
+<li><strong>Example:</strong> Randomly select 100 patient samples from a hospital database instead of choosing conveniently.</li>
+</ul>
+<hr />
+<h3 id="doe-process-flow">7.2 DOE Process Flow</h3>
+<p>1️⃣ <strong>Define Objectives:</strong><br />
+- Clarify the hypothesis and outcome measure (e.g., blood glucose level after 8 weeks).</p>
+<p>2️⃣ <strong>Select Factors and Levels:</strong><br />
+- Identify independent variables to manipulate (e.g., drug dose: 5mg, 10mg, 20mg).</p>
+<p>3️⃣ <strong>Choose Experimental Design:</strong><br />
+- Decide between simple A/B, factorial, or randomized block design.</p>
+<p>4️⃣ <strong>Randomize and Collect Data:</strong><br />
+- Assign participants, measure responses, and log data consistently.</p>
+<p>5️⃣ <strong>Analyze Using Appropriate Test:</strong><br />
+- Apply t-test, ANOVA, regression, or non-parametric methods depending on data type.</p>
+<p>6️⃣ <strong>Validate and Interpret:</strong><br />
+- Check assumptions (normality, homogeneity of variance, independence).<br />
+- Visualize results (boxplots, interaction plots).</p>
+<hr />
+<h3 id="factorial-design-example">7.3 Factorial Design Example</h3>
+<p>In many scientific experiments, we may test multiple factors at once:</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Factor</th>
+<th style="text-align: left;">Levels</th>
+<th style="text-align: left;">Example</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Drug Type</td>
+<td style="text-align: left;">A, B</td>
+<td style="text-align: left;">Two medications</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Dose</td>
+<td style="text-align: left;">Low, High</td>
+<td style="text-align: left;">10 mg vs. 20 mg</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Temperature</td>
+<td style="text-align: left;">25°C, 37°C</td>
+<td style="text-align: left;">Culture condition</td>
+</tr>
+</tbody>
+</table>
+<p>A <strong>2×2×2 factorial design</strong> can simultaneously test: - Main effects of each factor (Drug, Dose, Temperature) - Interaction effects (e.g., whether Drug A works better at 37°C)</p>
+<p>Analysis uses <strong>two-way or three-way ANOVA</strong> or linear models: - Python: <code>statsmodels.formula.api.ols('Response ~ Drug*Dose*Temp', data=df).fit()</code> - R: <code>aov(Response ~ Drug*Dose*Temp, data=df)</code></p>
+<hr />
+<h3 id="common-mistakes-in-doe">7.4 Common Mistakes in DOE</h3>
+<ol type="1">
+<li><strong>Peeking Too Early:</strong>
+<ul>
+<li>Stopping the experiment once p &lt; 0.05 without sufficient sample size inflates Type I error.</li>
+</ul></li>
+<li><strong>Ignoring Randomization:</strong>
+<ul>
+<li>Non-random assignment (e.g., by convenience) introduces bias.</li>
+</ul></li>
+<li><strong>Confounding Variables:</strong>
+<ul>
+<li>Failing to account for known covariates (age, site, batch) can distort the effect.</li>
+</ul></li>
+<li><strong>Insufficient Replication:</strong>
+<ul>
+<li>Too few samples lead to low statistical power and unstable conclusions.</li>
+</ul></li>
+<li><strong>Misaligned Units of Analysis:</strong>
+<ul>
+<li>Randomizing hospitals but analyzing individual patients as independent (violates assumptions).</li>
+</ul></li>
+<li><strong>Overfitting / Data Snooping:</strong>
+<ul>
+<li>Designing experiment after seeing the data undermines inference validity.</li>
+</ul></li>
+</ol>
+<blockquote>
+<p><strong>Tips:</strong> </br> - DOE ensures <strong>valid, efficient, and interpretable</strong> experiments.<br />
+- Core pillars: Randomization, Replication, Blocking, Control, and Blinding.<br />
+- Use <strong>factorial designs</strong> to study multiple factors simultaneously.<br />
+- Avoid <strong>bias and confounding</strong> through careful design and covariate adjustment.<br />
+- In biomedical studies, DOE principles align closely with <strong>Good Clinical Practice (GCP)</strong> and <strong>ICH E9 statistical guidelines</strong>.</p>
+</blockquote>
+<hr />
+<h2 id="Summary">8. Summary and Next Steps</h2>
+<h3 id="recap-of-key-concepts">🧭 Recap of Key Concepts</h3>
+<p>In this notebook, we established the theoretical foundation for A/B testing and experimental design (DOE) in both biomedical and data-driven contexts.</p>
+<p><strong>Key takeaways:</strong> - A/B testing is essentially a <strong>controlled experiment</strong> comparing two or more variants under randomized, unbiased conditions.<br />
+- The success of any A/B test depends on <strong>good experimental design</strong>, including randomization, replication, blocking, and blinding.<br />
+- Statistical testing provides the quantitative evidence to decide whether observed differences are <strong>real</strong> or due to chance.<br />
+- DOE principles ensure experiments are <strong>efficient, reproducible, and interpretable</strong>, forming the backbone of all scientific and industrial testing.<br />
+- We summarized different A/B testing <strong>design types</strong>, from simple two-sample comparisons to complex adaptive and real-world observational frameworks.</p>
+<h3 id="statistical-methods-overview">⚙️ Statistical Methods Overview</h3>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Data Type</th>
+<th style="text-align: left;">Example</th>
+<th style="text-align: left;">Recommended Test</th>
+<th style="text-align: left;">Typical Use</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Continuous, independent</td>
+<td style="text-align: left;">Healthy vs. diabetic methylation</td>
+<td style="text-align: left;">t-test</td>
+<td style="text-align: left;">Compare group means</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Continuous, paired</td>
+<td style="text-align: left;">Before vs. after treatment</td>
+<td style="text-align: left;">Paired t-test</td>
+<td style="text-align: left;">Within-subject effect</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Categorical outcome</td>
+<td style="text-align: left;">Treatment success (yes/no)</td>
+<td style="text-align: left;">Z-test / χ² test</td>
+<td style="text-align: left;">Compare proportions</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">&gt;2 groups</td>
+<td style="text-align: left;">Multi-dose comparison</td>
+<td style="text-align: left;">ANOVA</td>
+<td style="text-align: left;">Multiple mean comparison</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Non-normal data</td>
+<td style="text-align: left;">Skewed biomarker levels</td>
+<td style="text-align: left;">Mann–Whitney U</td>
+<td style="text-align: left;">Non-parametric test</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Time series</td>
+<td style="text-align: left;">Pre/post intervention</td>
+<td style="text-align: left;">Interrupted Time Series</td>
+<td style="text-align: left;">Policy or treatment effect</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Observational</td>
+<td style="text-align: left;">Real-world drug registry</td>
+<td style="text-align: left;">Propensity Matching, DiD</td>
+<td style="text-align: left;">Estimate causal effect</td>
+</tr>
+</tbody>
+</table>
+<h3 id="connection-to-biomedical-research">🧬 Connection to Biomedical Research</h3>
+<p>In medical studies, these principles directly translate to: - <strong>Randomized Controlled Trials (RCTs)</strong> — gold standard for evaluating treatments.<br />
+- <strong>Omics data analysis</strong> — comparing gene expression, methylation, or protein levels between groups.<br />
+- <strong>Diagnostics evaluation</strong> — sensitivity/specificity comparison of new assays.<br />
+- <strong>Public health and policy studies</strong> — impact of interventions or regulations.</p>
+<h3 id="whats-next-in-this-series">🚀 What’s Next in This Series</h3>
+<p>This notebook serves as the <strong>foundation of our A/B Testing and Statistical Inference series</strong>.<br />
+In the next notebooks, we will deep dive into specific statistical tests and visualization techniques:</p>
+<table border="1" style="border-collapse:collapse; width:100%; text-align:left;">
+<thead style="background:#f7f7f7;">
+<tr>
+<th>
+Topic
+</th>
+<th>
+Focus
+</th>
+<th>
+References (Wikipedia)
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<b>A/B Testing and Implement: t-test and Confidence Intervals</b>
+</td>
+<td>
+Compare two means (independent/paired), interpret effect size and confidence intervals.
+</td>
+<td>
+<a href="https://en.wikipedia.org/wiki/Student%27s_t-test">Student’s t-test</a><br> <a href="https://en.wikipedia.org/wiki/Welch%27s_t-test">Welch’s t-test</a><br> <a href="https://en.wikipedia.org/wiki/Confidence_interval">Confidence interval</a><br> <a href="https://en.wikipedia.org/wiki/Effect_size">Effect size</a>
+</td>
+</tr>
+<tr>
+<td>
+<b>A/B Testing and Implement: Z-test &amp; Chi-squared for Proportions</b>
+</td>
+<td>
+Compare binary outcomes (conversion/response rates) via z-test or χ² test.
+</td>
+<td>
+<a href="https://en.wikipedia.org/wiki/Z-test">Z-test</a><br> <a href="https://en.wikipedia.org/wiki/Chi-squared_test">Chi-squared test</a><br> <a href="https://en.wikipedia.org/wiki/Binomial_proportion">Binomial proportion</a>
+</td>
+</tr>
+<tr>
+<td>
+<b>A/B Testing and Implement: ANOVA &amp; Post-hoc Comparisons</b>
+</td>
+<td>
+Compare &gt;2 groups; assess factor effects; run post-hoc tests for pairwise differences.
+</td>
+<td>
+<a href="https://en.wikipedia.org/wiki/Analysis_of_variance">Analysis of variance (ANOVA)</a><br> <a href="https://en.wikipedia.org/wiki/Tukey%27s_range_test">Tukey’s HSD</a><br> <a href="https://en.wikipedia.org/wiki/Holm%E2%80%93Bonferroni_method">Holm–Bonferroni</a>
+</td>
+</tr>
+<tr>
+<td>
+<b>A/B Testing and Implement: Nonparametric Tests</b>
+</td>
+<td>
+Robust alternatives when normality/variance assumptions fail.
+</td>
+<td>
+<a href="https://en.wikipedia.org/wiki/Mann%E2%80%93Whitney_U_test">Mann–Whitney U</a><br> <a href="https://en.wikipedia.org/wiki/Wilcoxon_signed-rank_test">Wilcoxon signed-rank</a><br> <a href="https://en.wikipedia.org/wiki/Kruskal%E2%80%93Wallis_one-way_analysis_of_variance">Kruskal–Wallis</a>
+</td>
+</tr>
+<tr>
+<td>
+<b>A/B Testing and Implement: Regression Models (Linear &amp; Logistic)</b>
+</td>
+<td>
+Model outcomes with covariate adjustment; interpret coefficients and odds ratios.
+</td>
+<td>
+<a href="https://en.wikipedia.org/wiki/Linear_regression">Linear regression</a><br> <a href="https://en.wikipedia.org/wiki/Logistic_regression">Logistic regression</a><br> <a href="https://en.wikipedia.org/wiki/Generalized_linear_model">Generalized linear model</a><br> <a href="https://en.wikipedia.org/wiki/Analysis_of_covariance">ANCOVA</a>
+</td>
+</tr>
+<tr>
+<td>
+<b>A/B Testing and Implement: Power &amp; Sample Size Planning</b>
+</td>
+<td>
+Design for adequate power; compute required N given effect size, α, and variance.
+</td>
+<td>
+<a href="https://en.wikipedia.org/wiki/Statistical_power">Statistical power</a><br> <a href="https://en.wikipedia.org/wiki/Sample_size_determination">Sample size determination</a><br> <a href="https://en.wikipedia.org/wiki/Type_I_and_type_II_errors">Type I/II errors</a>
+</td>
+</tr>
+<tr>
+<td>
+<b>A/B Testing and Implement: Visualization &amp; Reporting</b>
+</td>
+<td>
+Communicate effects with CIs; use box/violin/forest plots; ensure reproducible reporting.
+</td>
+<td>
+<a href="https://en.wikipedia.org/wiki/Box_plot">Box plot</a><br> <a href="https://en.wikipedia.org/wiki/Violin_plot">Violin plot</a><br> <a href="https://en.wikipedia.org/wiki/Forest_plot">Forest plot</a><br> <a href="https://en.wikipedia.org/wiki/Confidence_interval">Confidence interval</a>
+</td>
+</tr>
+<tr>
+<td>
+<b>A/B Testing and Implement: DOE Fundamentals</b>
+</td>
+<td>
+Apply randomization, blocking, factorial design; avoid bias and confounding.
+</td>
+<td>
+<a href="https://en.wikipedia.org/wiki/Design_of_experiments">Design of experiments</a><br> <a href="https://en.wikipedia.org/wiki/Factorial_experiment">Factorial experiment</a><br> <a href="https://en.wikipedia.org/wiki/Randomized_controlled_trial">Randomized controlled trial</a><br> <a href="https://en.wikipedia.org/wiki/Blocking_(statistics)">Blocking (statistics)</a>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Each notebook will include:</br> - Concept overview<br />
+- Example dataset (biomedical or simulated)<br />
+- Python and R implementation<br />
+- Visualization and interpretation guide</p>
+<hr />
+<h3 id="final-note">🧠 Final Note</h3>
+<p>A well-designed A/B test is not just a statistics exercise, it is a <strong>scientific reasoning process</strong>: defining hypotheses, designing unbiased experiments, collecting reliable data, and interpreting results responsibly.</p>
+<p>By mastering DOE principles and statistical testing methods, we can build experiments that are both <strong>credible and impactful</strong>: from clinical trials to computational biology, from data science to product innovation.</p>
+<script type="text/javascript">
+// @ts-nocheck
+
+document.addEventListener("DOMContentLoaded", () => {
+document.querySelectorAll("div.sourceCode").forEach(block => {
+    // Create "Copy" button
+    const button = document.createElement("button");
+    button.className = "copy-btn";
+    button.innerText = "Copy";
+    block.prepend(button);
+
+    // Get language name from <pre class="sourceCode bash">...
+    const pre = block.querySelector("pre");
+    const lang = (pre.className.match(/sourceCode\s+(\w+)/) || [])[1];
+    if (lang) block.setAttribute("data-lang", lang);
+
+    // Copy functionality
+    button.addEventListener("click", async () => {
+        const code = block.querySelector("code").innerText;
+        try {
+        await navigator.clipboard.writeText(code);
+        button.innerText = "Copied!";
+        button.style.background = "#d1f7c4";
+        setTimeout(() => {
+            button.innerText = "Copy";
+            button.style.background = "#f6f8fa";
+        }, 1800);
+        } catch (err) {
+        button.innerText = "Error";
+        console.error("Copy failed:", err);
+        }
+    });
+    });
+});
+
+/* ===== Responsive Image Auto Sizing ===== */
+document.addEventListener("DOMContentLoaded", function() {
+    document.querySelectorAll("img").forEach(img => {
+    img.onload = () => {
+        const ratio = img.naturalWidth / img.naturalHeight;
+
+        // 标准分类逻辑：竖图小、横图大
+        if (ratio < 0.9) {
+        img.classList.add("portrait");  // 竖图
+        } else if (ratio > 1.5) {
+        img.classList.add("landscape"); // 宽图
+        } else {
+        img.classList.add("square");    // 方图
+        }
+    };
+    });
+});
+
+/* ===== TOC style determination ===== */
+document.addEventListener("DOMContentLoaded", function() {
+    // 找到内容主体
+    const content = document.querySelector("main.content");
+    if (!content) return;
+
+    // 创建 TOC 容器
+    const toc = document.createElement("nav");
+    toc.id = "auto-toc";
+    toc.innerHTML = "<h3>📑 Contents</h3><ul></ul>";
+
+    // 把 TOC 插到 content 之前
+    const container = document.createElement("div");
+    container.className = "toc-container";
+    content.parentNode.insertBefore(container, content);
+    container.appendChild(toc);
+    container.appendChild(content);
+
+    // 扫描标题（支持 h1-h3）
+    const headers = content.querySelectorAll("h1, h2, h3");
+    const list = toc.querySelector("ul");
+
+    headers.forEach(header => {
+    const id = header.id || header.textContent.trim().toLowerCase().replace(/[^\w]+/g, "-");
+    header.id = id; // 确保有 id
+
+    const li = document.createElement("li");
+    li.innerHTML = `<a href="#${id}">${header.textContent}</a>`;
+    list.appendChild(li);
+    });
+
+    // 平滑滚动
+    list.querySelectorAll("a").forEach(link => {
+    link.addEventListener("click", e => {
+        e.preventDefault();
+        const target = document.querySelector(link.getAttribute("href"));
+        if (target) {
+        window.scrollTo({ top: target.offsetTop - 20, behavior: "smooth" });
+        }
+    });
+    });
+
+  // 滚动高亮当前章节
+    const links = list.querySelectorAll("a");
+    const sections = Array.from(links).map(link => document.querySelector(link.getAttribute("href")));
+
+    window.addEventListener("scroll", () => {
+    const scrollPos = window.scrollY + 100;
+    sections.forEach((sec, i) => {
+        if (sec && sec.offsetTop <= scrollPos && sec.offsetTop + sec.offsetHeight > scrollPos) {
+        links.forEach(l => l.classList.remove("active"));
+        links[i].classList.add("active");
+        }
+    });
+    });
+});
+</script>
+</body>
+</html>

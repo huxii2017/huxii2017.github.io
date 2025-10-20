@@ -1,0 +1,29 @@
+last_updated: 2025-10-18  # <== manually updated
+items:
+  - title: "Reproducing Beta–Binomial Bayesian Inference for CMV-Associated TCRs in Python and R"
+    image: "/assets/biostat/Beta-Bionmial-BayesInfer-TCR/TCR-2017-NatGen.png"
+    link: "/assets/biostat/Beta-Bionmial-BayesInfer-TCR/BetaBionmial-BayesInfer-TCR-2017-NatGen.html"
+    desc: "This note shows comparable results between Python and R implementations and alignment with the original 2017 Nature Genetics study."
+    #added: 2025-10-16        # 新增：添加日期（YYYY-MM-DD）
+    #updated: 2025-10-16      # 可选：更新日期
+
+  - title: "Survival Analysis I: Kaplan–Meier and Cox Models"
+    image: "/assets/biostat/survival_analysis/survival_analysis_1.png"
+    link: "/assets/biostat/survival_analysis/survival_analysis_1.html"
+    desc: "Learn how to estimate survival curves and model time-to-event outcomes using the Kaplan–Meier estimator and Cox proportional hazards model."
+    #added: 2025-10-12        # 新增：添加日期（YYYY-MM-DD）
+    #updated: 2025-10-12      # 可选：更新日期
+
+  - title: "Survival Analysis II: Model Diagnostics and Extensions"
+    image: "/assets/biostat/survival_analysis/survival_analysis_2.png"
+    link: "/assets/biostat/survival_analysis/survival_analysis_2.html"
+    desc: "Explore how to validate survival models, check the proportional hazards assumption, and evaluate predictive performance with C-index and time-dependent ROC."
+    #added: 2025-10-17        # 新增：添加日期（YYYY-MM-DD）
+    #updated: 2025-10-17      # 可选：更新日期
+
+  - title: "Overview of A/B testing and DOE"
+    image: "/assets/biostat/A-B_test/A-B_test_1.jpeg"
+    link: "/assets/biostat/A-B_test/A-B_test_1.html"
+    desc: "The first notebook of the A/B Testing series — introducing statistical foundations and DOE principles that guide all subsequent analyses and biomedical comparisons."
+    #added: 2025-10-18        # 新增：添加日期（YYYY-MM-DD）
+    #updated: 2025-10-18      # 可选：更新日期

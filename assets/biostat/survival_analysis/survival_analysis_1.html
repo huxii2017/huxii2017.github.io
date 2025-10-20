@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>survival_analysis_1</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="../../css/github-plus.css" />
+  <link rel="stylesheet" href="../../css/code-theme.css" />
+  <link rel="stylesheet" href="../../css/github-markdown.css" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <base target="_blank">
+</head>
+<body>
+<h1 id="survival-analysis-i-kaplanmeier-and-cox-models">Survival Analysis I: Kaplan–Meier and Cox Models</h1>
+<blockquote>
+<p>📚 <em>Reference: <a href="https://en.wikipedia.org/wiki/Survival_analysis">Wikipedia - Survival analysis</a></em></p>
+</blockquote>
+<hr />
+<h2 id="introduction">✨ Introduction</h2>
+<p><strong>Survival analysis</strong> is a branch of statistics for analyzing the expected duration until one or more events occur — such as death, relapse, equipment failure, or customer churn. Unlike ordinary regression models that focus only on whether an event occurs, survival analysis explicitly models <strong>when</strong> it happens.</p>
+<p>A key feature is the ability to handle <strong>censored data</strong>, meaning some subjects have not yet experienced the event by the end of the observation period (e.g., patients still alive, machines still working).</p>
+<hr />
+<h2 id="why-it-matters">💡 Why It Matters</h2>
+<p>Survival analysis is crucial because it allows researchers and engineers to:</p>
+<ul>
+<li>Identify factors that influence the timing of an event (e.g., age, treatment, environment);<br />
+</li>
+<li>Estimate survival probabilities over time, even with incomplete data;<br />
+</li>
+<li>Compare survival experiences between groups (e.g., treatment vs. control);<br />
+</li>
+<li>Predict future survival probabilities or remaining lifetime.</li>
+</ul>
+<p>In real-world studies, complete event data are often unavailable. Survival analysis provides a statistically sound framework for handling such partial information.</p>
+<hr />
+<h2 id="common-application-fields">🧬 Common Application Fields</h2>
+<table>
+<colgroup>
+<col style="width: 17%" />
+<col style="width: 46%" />
+<col style="width: 35%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Field</th>
+<th style="text-align: left;">Example Question</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><strong>Medical research</strong></td>
+<td style="text-align: left;">How long do patients survive after treatment?</td>
+<td style="text-align: left;">The most classical use case; evaluates treatment efficacy or prognostic factors.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Engineering &amp; reliability</strong></td>
+<td style="text-align: left;">How long until a component fails?</td>
+<td style="text-align: left;">Often called <em>reliability analysis</em> in engineering contexts.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>Business &amp; finance</strong></td>
+<td style="text-align: left;">How long before a customer churns or a loan defaults?</td>
+<td style="text-align: left;">Used in customer retention and risk modeling.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Social sciences</strong></td>
+<td style="text-align: left;">How long after graduation before finding a job?</td>
+<td style="text-align: left;">Models time-to-event in behavioral studies.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>Computational biology</strong></td>
+<td style="text-align: left;">How are gene expression levels associated with patient survival?</td>
+<td style="text-align: left;">Widely used for cancer prognosis using omics data (e.g., TCGA).</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="analytical-objectives-and-methods">⚙️ Analytical Objectives and Methods</h2>
+<p>Survival analysis typically aims to:</p>
+<ol type="1">
+<li><strong>Describe</strong> overall survival patterns with a survival function ( S(t) ), such as the Kaplan–Meier estimator.<br />
+</li>
+<li><strong>Compare</strong> survival distributions between groups (e.g., log-rank test).<br />
+</li>
+<li><strong>Model</strong> covariate effects on hazard rates using regression models (e.g., Cox proportional hazards model).<br />
+</li>
+<li><strong>Predict</strong> individual survival curves based on observed features.</li>
+</ol>
+<hr />
+<h2 id="example-survival-analysis-in-r">📘 Example: Survival Analysis in R</h2>
+<p>We will use the built-in <code>lung</code> dataset from the <code>survival</code> package as an example.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load necessary libraries</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(survival)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(survminer)  <span class="co"># for visualization</span></span></code></pre></div>
+<pre><code>Loading required package: ggplot2
+
+Loading required package: ggpubr
+
+
+Attaching package: ‘survminer’
+
+
+The following object is masked from ‘package:survival’:
+
+    myeloma</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load dataset</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(lung)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(lung)</span></code></pre></div>
+<pre><code>Warning message in data(lung):
+“data set ‘lung’ not found”</code></pre>
+<table class="dataframe">
+<caption>
+A data.frame: 6 × 10
+</caption>
+<thead>
+<tr>
+<th>
+</th>
+<th scope="col">
+inst
+</th>
+<th scope="col">
+time
+</th>
+<th scope="col">
+status
+</th>
+<th scope="col">
+age
+</th>
+<th scope="col">
+sex
+</th>
+<th scope="col">
+ph.ecog
+</th>
+<th scope="col">
+ph.karno
+</th>
+<th scope="col">
+pat.karno
+</th>
+<th scope="col">
+meal.cal
+</th>
+<th scope="col">
+wt.loss
+</th>
+</tr>
+<tr>
+<th>
+</th>
+<th scope="col">
+&lt;dbl&gt;
+</th>
+<th scope="col">
+&lt;dbl&gt;
+</th>
+<th scope="col">
+&lt;dbl&gt;
+</th>
+<th scope="col">
+&lt;dbl&gt;
+</th>
+<th scope="col">
+&lt;dbl&gt;
+</th>
+<th scope="col">
+&lt;dbl&gt;
+</th>
+<th scope="col">
+&lt;dbl&gt;
+</th>
+<th scope="col">
+&lt;dbl&gt;
+</th>
+<th scope="col">
+&lt;dbl&gt;
+</th>
+<th scope="col">
+&lt;dbl&gt;
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th scope="row">
+1
+</th>
+<td>
+3
+</td>
+<td>
+306
+</td>
+<td>
+2
+</td>
+<td>
+74
+</td>
+<td>
+1
+</td>
+<td>
+1
+</td>
+<td>
+90
+</td>
+<td>
+100
+</td>
+<td>
+1175
+</td>
+<td>
+NA
+</td>
+</tr>
+<tr>
+<th scope="row">
+2
+</th>
+<td>
+3
+</td>
+<td>
+455
+</td>
+<td>
+2
+</td>
+<td>
+68
+</td>
+<td>
+1
+</td>
+<td>
+0
+</td>
+<td>
+90
+</td>
+<td>
+90
+</td>
+<td>
+1225
+</td>
+<td>
+15
+</td>
+</tr>
+<tr>
+<th scope="row">
+3
+</th>
+<td>
+3
+</td>
+<td>
+1010
+</td>
+<td>
+1
+</td>
+<td>
+56
+</td>
+<td>
+1
+</td>
+<td>
+0
+</td>
+<td>
+90
+</td>
+<td>
+90
+</td>
+<td>
+NA
+</td>
+<td>
+15
+</td>
+</tr>
+<tr>
+<th scope="row">
+4
+</th>
+<td>
+5
+</td>
+<td>
+210
+</td>
+<td>
+2
+</td>
+<td>
+57
+</td>
+<td>
+1
+</td>
+<td>
+1
+</td>
+<td>
+90
+</td>
+<td>
+60
+</td>
+<td>
+1150
+</td>
+<td>
+11
+</td>
+</tr>
+<tr>
+<th scope="row">
+5
+</th>
+<td>
+1
+</td>
+<td>
+883
+</td>
+<td>
+2
+</td>
+<td>
+60
+</td>
+<td>
+1
+</td>
+<td>
+0
+</td>
+<td>
+100
+</td>
+<td>
+90
+</td>
+<td>
+NA
+</td>
+<td>
+0
+</td>
+</tr>
+<tr>
+<th scope="row">
+6
+</th>
+<td>
+12
+</td>
+<td>
+1022
+</td>
+<td>
+1
+</td>
+<td>
+74
+</td>
+<td>
+1
+</td>
+<td>
+1
+</td>
+<td>
+50
+</td>
+<td>
+80
+</td>
+<td>
+513
+</td>
+<td>
+0
+</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a survival object</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>surv_object <span class="ot">&lt;-</span> <span class="fu">Surv</span>(<span class="at">time =</span> lung<span class="sc">$</span>time, <span class="at">event =</span> lung<span class="sc">$</span>status <span class="sc">==</span> <span class="dv">2</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>surv_object</span></code></pre></div>
+<pre><code>  [1]  306   455  1010+  210   883  1022+  310   361   218   166   170   654 
+ [13]  728    71   567   144   613   707    61    88   301    81   624   371 
+ [25]  394   520   574   118   390    12   473    26   533   107    53   122 
+ [37]  814   965+   93   731   460   153   433   145   583    95   303   519 
+ [49]  643   765   735   189    53   246   689    65     5   132   687   345 
+ [61]  444   223   175    60   163    65   208   821+  428   230   840+  305 
+ [73]   11   132   226   426   705   363    11   176   791    95   196+  167 
+ [85]  806+  284   641   147   740+  163   655   239    88   245   588+   30 
+ [97]  179   310   477   166   559+  450   364   107   177   156   529+   11 
+[109]  429   351    15   181   283   201   524    13   212   524   288   363 
+[121]  442   199   550    54   558   207    92    60   551+  543+  293   202 
+[133]  353   511+  267   511+  371   387   457   337   201   404+  222    62 
+[145]  458+  356+  353   163    31   340   229   444+  315+  182   156   329 
+[157]  364+  291   179   376+  384+  268   292+  142   413+  266+  194   320 
+[169]  181   285   301+  348   197   382+  303+  296+  180   186   145   269+
+[181]  300+  284+  350   272+  292+  332+  285   259+  110   286   270    81 
+[193]  131   225+  269   225+  243+  279+  276+  135    79    59   240+  202+
+[205]  235+  105   224+  239   237+  173+  252+  221+  185+   92+   13   222+
+[217]  192+  183   211+  175+  197+  203+  116   188+  191+  105+  174+  177+</code></pre>
+<h3 id="example-kaplanmeier-survival-curve"><strong>Example: Kaplan–Meier survival curve</strong></h3>
+<p>The <strong>Kaplan–Meier (KM) estimator</strong>, also known as the <strong>product-limit estimator</strong>, is a <strong>non-parametric method</strong> used to estimate the <strong>survival function</strong> from time-to-event data.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Kaplan–Meier estimator by sex</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>fit_km <span class="ot">&lt;-</span> <span class="fu">survfit</span>(<span class="fu">Surv</span>(time, status) <span class="sc">~</span> sex, <span class="at">data =</span> lung)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>fit_km</span></code></pre></div>
+<pre><code>Call: survfit(formula = Surv(time, status) ~ sex, data = lung)
+
+        n events median 0.95LCL 0.95UCL
+sex=1 138    112    270     212     310
+sex=2  90     53    426     348     550</code></pre>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot survival curves</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsurvplot</span>(</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    fit_km,</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> lung,</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">pval =</span> <span class="cn">TRUE</span>,                <span class="co"># show log-rank test p-value</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">conf.int =</span> <span class="cn">TRUE</span>,            <span class="co"># show confidence intervals</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">risk.table =</span> <span class="cn">TRUE</span>,          <span class="co"># add number at risk table</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.title =</span> <span class="st">&quot;Sex&quot;</span>,</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.labs =</span> <span class="fu">c</span>(<span class="st">&quot;Male&quot;</span>, <span class="st">&quot;Female&quot;</span>),</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">palette =</span> <span class="fu">c</span>(<span class="st">&quot;#E69F00&quot;</span>, <span class="st">&quot;#56B4E9&quot;</span>)</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<figure>
+<img src="survival_analysis_1_files/survival_analysis_1_7_0.png" alt="png" /><figcaption aria-hidden="true">png</figcaption>
+</figure>
+<blockquote>
+<p>Plot interpretation</p>
+<ul>
+<li>The <strong>stepwise curve</strong> shows survival probability over time.</li>
+<li>The <strong>shaded area</strong> indicates the 95% confidence interval.</li>
+<li>The <strong>p-value</strong> corresponds to the log-rank test, which tests for differences between groups.</li>
+<li>The <strong>risk table</strong> below shows how many subjects remain at risk at each time point. </br></li>
+</ul>
+</blockquote>
+<h3 id="example-cox-proportional-hazards-model"><strong>Example: Cox Proportional Hazards Model</strong></h3>
+<p>The Cox Proportional Hazards (Cox PH) model is a <strong>semi-parametric regression model</strong> for studying the effect of covariates (predictors) on survival time. </br> The Cox model explores how multiple covariates influence the hazard rate — the instantaneous risk of event occurrence.</p>
+<p><strong>Forest plot of Hazard Ratios</strong></p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ---- Cox Proportional Hazards Model ----</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>fit_cox <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(time, status) <span class="sc">~</span> age <span class="sc">+</span> sex <span class="sc">+</span> ph.ecog, <span class="at">data =</span> lung)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit_cox)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Test proportional hazards assumption</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="fu">cox.zph</span>(fit_cox)</span></code></pre></div>
+<pre><code>Call:
+coxph(formula = Surv(time, status) ~ age + sex + ph.ecog, data = lung)
+
+  n= 227, number of events= 164 
+   (1 observation deleted due to missingness)
+
+             coef exp(coef)  se(coef)      z Pr(&gt;|z|)    
+age      0.011067  1.011128  0.009267  1.194 0.232416    
+sex     -0.552612  0.575445  0.167739 -3.294 0.000986 ***
+ph.ecog  0.463728  1.589991  0.113577  4.083 4.45e-05 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+        exp(coef) exp(-coef) lower .95 upper .95
+age        1.0111     0.9890    0.9929    1.0297
+sex        0.5754     1.7378    0.4142    0.7994
+ph.ecog    1.5900     0.6289    1.2727    1.9864
+
+Concordance= 0.637  (se = 0.025 )
+Likelihood ratio test= 30.5  on 3 df,   p=1e-06
+Wald test            = 29.93  on 3 df,   p=1e-06
+Score (logrank) test = 30.5  on 3 df,   p=1e-06
+
+
+
+
+        chisq df    p
+age     0.188  1 0.66
+sex     2.305  1 0.13
+ph.ecog 2.054  1 0.15
+GLOBAL  4.464  3 0.22</code></pre>
+<blockquote>
+<p><code>ggforest()</code> displays each covariate’s HR, 95% confidence interval, and p-value — a concise summary of the model.</p>
+</blockquote>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize hazard ratios</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggforest</span>(fit_cox, <span class="at">data =</span> lung)</span></code></pre></div>
+<figure>
+<img src="survival_analysis_1_files/survival_analysis_1_13_0.png" alt="png" /><figcaption aria-hidden="true">png</figcaption>
+</figure>
+<p><strong>Interpretation</strong></p>
+<table>
+<thead>
+<tr>
+<th>
+Term
+</th>
+<th>
+Meaning
+</th>
+<th>
+Description
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+coef
+</td>
+<td>
+Regression coefficient
+</td>
+<td>
+Direction and magnitude of variable effect
+</td>
+</tr>
+<tr>
+<td>
+exp(coef)
+</td>
+<td>
+Hazard ratio (HR)
+</td>
+<td>
+&gt;1 indicates increased risk, &lt;1 indicates decreased risk
+</td>
+</tr>
+<tr>
+<td>
+p-value
+</td>
+<td>
+Significance test
+</td>
+<td>
+Tests whether the variable significantly affects survival
+</td>
+</tr>
+<tr>
+<td>
+log-rank test
+</td>
+<td>
+Group comparison
+</td>
+<td>
+Evaluates statistical difference between survival curves
+</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Predicted Survival Curves from the Cox Model</strong></p>
+<p>You can generate survival curves for different covariate patterns using <code>survfit()</code> on the fitted model.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate predicted survival curves for male vs female</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>newdata <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">age =</span> <span class="fu">mean</span>(lung<span class="sc">$</span>age, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">sex =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>),</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">ph.ecog =</span> <span class="fu">mean</span>(lung<span class="sc">$</span>ph.ecog, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>fit_pred <span class="ot">&lt;-</span> <span class="fu">survfit</span>(fit_cox, <span class="at">newdata =</span> newdata)</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>p_model <span class="ot">&lt;-</span> <span class="fu">summary</span>(fit_cox)<span class="sc">$</span>wald[<span class="st">&quot;pvalue&quot;</span>]</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsurvplot</span>(</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>    fit_pred,</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> newdata,</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>    <span class="co">#pval=TRUE,</span></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">conf.int =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.labs =</span> <span class="fu">c</span>(<span class="st">&quot;Male&quot;</span>, <span class="st">&quot;Female&quot;</span>),</span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.title =</span> <span class="st">&quot;Sex&quot;</span>,</span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">palette =</span> <span class="fu">c</span>(<span class="st">&quot;#E69F00&quot;</span>, <span class="st">&quot;#56B4E9&quot;</span>),</span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="fu">paste0</span>(<span class="st">&quot;Predicted Survival Curves (Cox PH Model) Wald p = &quot;</span>, <span class="fu">signif</span>(p_model, <span class="dv">3</span>))</span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<figure>
+<img src="survival_analysis_1_files/survival_analysis_1_16_0.png" alt="png" /><figcaption aria-hidden="true">png</figcaption>
+</figure>
+<table>
+<thead>
+<tr>
+<th>
+Aspect
+</th>
+<th>
+Kaplan–Meier (KM) Curve
+</th>
+<th>
+Predicted Survival Curve from Cox Model
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<strong>Model type</strong>
+</td>
+<td>
+Non-parametric
+</td>
+<td>
+Semi-parametric (Cox proportional hazards model)
+</td>
+</tr>
+<tr>
+<td>
+<strong>Input to survfit()</strong>
+</td>
+<td>
+<code>survfit(Surv(time, status) ~ group, data = …)</code>
+</td>
+<td>
+<code>survfit(cox_model, newdata = …)</code>
+</td>
+</tr>
+<tr>
+<td>
+<strong>What it estimates</strong>
+</td>
+<td>
+Empirical survival function for each group (no covariate adjustment)
+</td>
+<td>
+Model-based survival prediction given specific covariate values
+</td>
+</tr>
+<tr>
+<td>
+<strong>Covariate handling</strong>
+</td>
+<td>
+Only one grouping variable (e.g., treatment, gender)
+</td>
+<td>
+All covariates in the Cox model are considered
+</td>
+</tr>
+<tr>
+<td>
+<strong>Baseline hazard</strong>
+</td>
+<td>
+Implicitly estimated by counting events over time
+</td>
+<td>
+Derived from the fitted Cox model’s baseline hazard
+</td>
+</tr>
+<tr>
+<td>
+<strong>Interpretation</strong>
+</td>
+<td>
+Observed survival rates within each group
+</td>
+<td>
+Predicted survival probability for a hypothetical or real subject with given covariates
+</td>
+</tr>
+<tr>
+<td>
+<strong>Use case</strong>
+</td>
+<td>
+Descriptive analysis; group comparison using log-rank test
+</td>
+<td>
+Inferential or predictive modeling; individual risk prediction
+</td>
+</tr>
+<tr>
+<td>
+<strong>Visualization</strong>
+</td>
+<td>
+Stepwise empirical curves (e.g., <code>ggsurvplot(fit_km)</code>)
+</td>
+<td>
+Smooth model-based curves (e.g., <code>ggsurvplot(survfit(cox_model, newdata))</code>)
+</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>In this first notebook, we introduced the foundations of survival analysis: </br> - The <strong>Kaplan–Meier estimator</strong> for estimating and comparing survival probabilities without covariates;<br />
+- The <strong>Cox proportional hazards model</strong> for assessing covariate effects on survival time.</p>
+<p>We learned how to:</br> - Construct survival objects with <code>Surv()</code>;<br />
+- Fit and plot survival curves using <code>survfit()</code> and <code>ggsurvplot()</code>;<br />
+- Build a Cox model with <code>coxph()</code> and interpret hazard ratios;<br />
+- Understand how model-based survival predictions differ from empirical Kaplan–Meier estimates.</p>
+<p>These methods provide the statistical backbone for most survival analyses — descriptive visualization through KM curves and inferential modeling through Cox regression.</p>
+<hr />
+<h2 id="next-step">🔗 Next Step</h2>
+<p>In the next notebook — <strong>Survival Analysis II: Model Diagnostics and Extensions</strong>, we will move beyond basic survival estimation and explore how to <strong>check model assumptions</strong>, <strong>evaluate predictive performance</strong>, and <strong>visualize covariate effects</strong>. You’ll learn how to validate the proportional hazards assumption, interpret residuals, and use tools such as <strong>C-index</strong>, <strong>time-dependent ROC</strong>, and <strong>forest plots</strong> to assess model reliability and interpretability.</p>
+<script type="text/javascript">
+// @ts-nocheck
+
+document.addEventListener("DOMContentLoaded", () => {
+document.querySelectorAll("div.sourceCode").forEach(block => {
+    // Create "Copy" button
+    const button = document.createElement("button");
+    button.className = "copy-btn";
+    button.innerText = "Copy";
+    block.prepend(button);
+
+    // Get language name from <pre class="sourceCode bash">...
+    const pre = block.querySelector("pre");
+    const lang = (pre.className.match(/sourceCode\s+(\w+)/) || [])[1];
+    if (lang) block.setAttribute("data-lang", lang);
+
+    // Copy functionality
+    button.addEventListener("click", async () => {
+        const code = block.querySelector("code").innerText;
+        try {
+        await navigator.clipboard.writeText(code);
+        button.innerText = "Copied!";
+        button.style.background = "#d1f7c4";
+        setTimeout(() => {
+            button.innerText = "Copy";
+            button.style.background = "#f6f8fa";
+        }, 1800);
+        } catch (err) {
+        button.innerText = "Error";
+        console.error("Copy failed:", err);
+        }
+    });
+    });
+});
+
+/* ===== Responsive Image Auto Sizing ===== */
+document.addEventListener("DOMContentLoaded", function() {
+    document.querySelectorAll("img").forEach(img => {
+    img.onload = () => {
+        const ratio = img.naturalWidth / img.naturalHeight;
+
+        // 标准分类逻辑：竖图小、横图大
+        if (ratio < 0.9) {
+        img.classList.add("portrait");  // 竖图
+        } else if (ratio > 1.5) {
+        img.classList.add("landscape"); // 宽图
+        } else {
+        img.classList.add("square");    // 方图
+        }
+    };
+    });
+});
+
+/* ===== TOC style determination ===== */
+document.addEventListener("DOMContentLoaded", function() {
+    // 找到内容主体
+    const content = document.querySelector("main.content");
+    if (!content) return;
+
+    // 创建 TOC 容器
+    const toc = document.createElement("nav");
+    toc.id = "auto-toc";
+    toc.innerHTML = "<h3>📑 Contents</h3><ul></ul>";
+
+    // 把 TOC 插到 content 之前
+    const container = document.createElement("div");
+    container.className = "toc-container";
+    content.parentNode.insertBefore(container, content);
+    container.appendChild(toc);
+    container.appendChild(content);
+
+    // 扫描标题（支持 h1-h3）
+    const headers = content.querySelectorAll("h1, h2, h3");
+    const list = toc.querySelector("ul");
+
+    headers.forEach(header => {
+    const id = header.id || header.textContent.trim().toLowerCase().replace(/[^\w]+/g, "-");
+    header.id = id; // 确保有 id
+
+    const li = document.createElement("li");
+    li.innerHTML = `<a href="#${id}">${header.textContent}</a>`;
+    list.appendChild(li);
+    });
+
+    // 平滑滚动
+    list.querySelectorAll("a").forEach(link => {
+    link.addEventListener("click", e => {
+        e.preventDefault();
+        const target = document.querySelector(link.getAttribute("href"));
+        if (target) {
+        window.scrollTo({ top: target.offsetTop - 20, behavior: "smooth" });
+        }
+    });
+    });
+
+  // 滚动高亮当前章节
+    const links = list.querySelectorAll("a");
+    const sections = Array.from(links).map(link => document.querySelector(link.getAttribute("href")));
+
+    window.addEventListener("scroll", () => {
+    const scrollPos = window.scrollY + 100;
+    sections.forEach((sec, i) => {
+        if (sec && sec.offsetTop <= scrollPos && sec.offsetTop + sec.offsetHeight > scrollPos) {
+        links.forEach(l => l.classList.remove("active"));
+        links[i].classList.add("active");
+        }
+    });
+    });
+});
+</script>
+</body>
+</html>

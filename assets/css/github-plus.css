@@ -1,0 +1,196 @@
+/* 
+============================================================
+GitHub-Plus Theme (for Pandoc / Jupyter HTML)
+Author: Xi Hu + ChatGPT
+Features:
+    - Clean GitHub-style typography
+    - Code blocks with language tags + Copy button
+    - Optional warm background tone
+============================================================
+*/
+
+/* ----- Page Base ----- */
+body {
+  background: #fafbfc;
+  color: #24292e;
+  font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
+  line-height: 1.6;
+  margin: 2em auto;
+  max-width: 960px;
+  padding: 0 1em;
+}
+
+
+h1, h2, h3, h4 {
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+/* ----- Code block wrapper ----- */
+div.sourceCode {
+  position: relative;
+  background: #f8f9fa;
+  border: 1px solid #d0d7de;
+  border-radius: 8px;
+  padding-top: 2.2em;
+  margin: 1.5em 0;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  overflow-x: auto;
+  transition: box-shadow 0.2s ease;
+}
+div.sourceCode:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* ----- Language label (top-left) ----- */
+div.sourceCode::before {
+  content: attr(data-lang);
+  position: absolute;
+  top: 6px;
+  left: 12px;
+  font-family: monospace;
+  font-size: 0.8em;
+  font-weight: bold;
+  color: #555;
+  background: #e8e8e8;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+/* ----- Copy button (top-right) ----- */
+div.sourceCode button.copy-btn {
+  position: absolute;
+  top: 6px;
+  right: 8px;
+  background: #f6f8fa;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 0.8em;
+  padding: 2px 8px;
+  cursor: pointer;
+  color: #333;
+  transition: all 0.2s ease;
+}
+div.sourceCode button.copy-btn:hover {
+  background: #e0e0e0;
+}
+
+/* ----- Code text ----- */
+pre.sourceCode {
+  margin: 0;
+  padding: 0.8em 1em 1em 1em;
+  background: transparent;
+  border: none;
+  color: #24292e;
+  font-family: "JetBrains Mono", "Fira Code", Consolas, monospace;
+  font-size: 0.95em;
+}
+
+/* ----- Inline code ----- */
+code {
+  background-color: #f3f4f6;
+  color: #c7254e;
+  padding: 0.1em 0.25em;
+  border-radius: 3px;
+  font-size: 90%;
+}
+
+/* ----- Image styling (auto responsive) ----- */
+img {
+  display: block;
+  margin: 1.2em auto;
+  height: auto;
+  border-radius: 6px;
+  object-fit: contain;
+  max-width:800px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+/* 鼠标悬停轻微放大 */
+img:hover {
+  transform: scale(1.02);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+/* 自动分类尺寸逻辑 */
+img.landscape {
+  max-width: 80%;    /* 宽图 → 大图 */
+}
+
+img.square {
+  max-width: 50%;    /* 方图 → 中等 */
+}
+
+img.portrait {
+  max-width: 40%;    /* 竖图 → 小图 */
+}
+
+/* ===== Auto-generated Sidebar TOC ===== */
+
+
+/* Container layout */
+.toc-container {
+  display: flex;
+  flex-direction: row;
+  max-width: 1300px;
+  width: 100%;
+}
+
+/* Sidebar */
+#auto-toc {
+  position: sticky;
+  top: 1em;
+  align-self: flex-start;
+  flex: 0 0 240px;
+  max-height: 90vh;
+  overflow-y: auto;
+  background: #fafafa;
+  border-right: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 1em;
+  margin-right: 1.5em;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+  font-size: 0.95em;
+}
+
+#auto-toc h3 {
+  font-size: 1.1em;
+  font-weight: 700;
+  margin-top: 0;
+  color: #333;
+}
+
+/* TOC list */
+#auto-toc ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+#auto-toc li {
+  margin: 0.5em 0;
+}
+
+#auto-toc a {
+  color: #333;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+#auto-toc a:hover {
+  color: #d9480f;
+}
+
+/* Active section highlight */
+#auto-toc a.active {
+  font-weight: bold;
+  color: #e63946;
+}
+
+/* Content */
+main.content {
+  flex: 1;
+  max-width: 900px;
+  padding: 1.5em 2em;
+}

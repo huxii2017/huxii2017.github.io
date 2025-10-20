@@ -1,0 +1,190 @@
+last_updated: 2025-10-20
+
+items:
+  - date: 2025-10-20
+    icon: "🚀"
+    title: "Initial Public Release of xi.github.io"
+    desc: >
+      The entire website has been published for the first time at **[https://xi.github.io](https://xi.github.io)**.  
+      Includes notebooks, galleries, assets, and full Jekyll setup. 
+
+  - date: 2025-10-18
+    icon: "🧪"
+    title: "Overview of A/B Testing and DOE"
+    desc: >
+      The first notebook in the A/B Testing series — introducing statistical foundations and Design of Experiments (DOE) principles for biomedical and behavioral data comparisons.
+
+  - date: 2025-10-17
+    icon: "📊"
+    title: "Survival Analysis II: Model Diagnostics and Extensions"
+    desc: >
+      Added model validation workflows for survival models, including proportional hazards assumption checking and performance evaluation using C-index and time-dependent ROC.
+
+  - date: 2025-10-16
+    icon: "🧬"
+    title: "Reproducing Beta–Binomial Bayesian Inference for CMV-Associated TCRs in Python and R"
+    desc: >
+      This note reproduces the statistical learning framework for CMV-associated TCRs, showing comparable results between Python and R implementations aligned with the 2017 *Nature Genetics* study.
+
+  - date: 2025-10-15
+    icon: "📉"
+    title: "Comparing Model Separability"
+    desc: >
+      Implemented a customized ROC curve visualization pipeline in both R and Python — integrating AUC computation, confidence intervals, and model comparison metrics.
+
+  - date: 2025-10-12
+    icon: "📈"
+    title: "Survival Analysis I: Kaplan–Meier and Cox Models"
+    desc: >
+      Introduced Kaplan–Meier survival curve estimation and Cox proportional hazards modeling using R and Python — covering survival probability visualization and time-to-event interpretation.
+
+  - date: 2025-10-09
+    icon: "☁️"
+    title: "VS Code Access to Google Cloud"
+    desc: >
+      Documented a practical setup that enables direct access to Google Cloud instances from VS Code — supporting SSH connection, file synchronization, and automation scripts for cloud-based analyses.
+
+
+  - date: 2025-10-08
+    icon: "🎨"
+    title: "How I Build and Use Color Palettes"
+    desc: >
+      Created a visual notebook on designing and applying custom color palettes — from finding inspiration to generating harmonious gradients for scientific visualizations.
+
+  - date: 2025-10-05
+    icon: "🧫"
+    title: "Approaches to cfDNA Fragmentomics"
+    desc: >
+      Developed a notebook demonstrating how cfDNA alignment files can be transformed into fragmentomic insights — decoding fragment size patterns, end motifs, and coverage trends.
+
+  - date: 2025-10-05
+    icon: "✨"
+    title: "AI for Science: Added HK Model 2 Project & Final Refinement"
+    desc: >
+      Added the **HK Model 2 Project** to the AI for Science gallery. Completed responsive adjustments,
+      cross-browser testing (Chrome/Safari/Firefox), and basic SEO metadata with favicon setup. Update on acknowledgement.
+      The entire website is now stable and ready for public viewing.
+
+  - date: 2025-10-04
+    icon: "✨"
+    title: "Stability & UI Finalization"
+    desc: >
+      Fixed animation timing and auto-slide pause on hover. Added “NEW” glowing tag for Skills navigation, verified responsive layout and font consistency. Core website framework is now stable and ready for public view.
+
+  - date: 2025-10-03
+    icon: "🧩"
+    title: "Modularized CSS and Global Styling Refinement"
+    desc: >
+      Split the stylesheet into page-specific modules (home.css / resume.css / gallery.css / publications.css ...)
+      to avoid selector conflicts and improve maintainability. Adjusted anchor offsets, sidebar spacing,
+      button consistency, and ensured sufficient accessibility contrast.
+
+  - date: 2025-10-01
+    icon: "🎞️"
+    title: "Resume Slideshow: Fade Animation and Auto Play"
+    desc: >
+      Redesigned the Resume section into a smooth slideshow with fade-in/out transitions and a fixed-height scrollable container.
+      The right-bottom navigation panel was resized for balance; hover tooltips and the “Request CV” bubble were added
+      for an elegant interactive touch.
+
+  - date: 2025-09-15
+    icon: "📢"
+    title: "Update System: Floating Button and Home Integration"
+    desc: >
+      Added a floating “Updates” button and speech-bubble hint on the homepage.
+      Integrated `_data/updates.yml` to automatically render changelogs.
+      Implemented smart animation logic that only triggers the flash when there are updates within the last 7 days.
+
+  - date: 2025-09-12
+    icon: "🌐"
+    title: "Gallery: External Link and Embedding Strategy"
+    desc: >
+      Gallery items now support both `url` (external) and `link` (internal) fields.
+      External links open in new tabs by default; if `embed: true` is provided, the content is rendered within an iframe.
+      Added a 🌐 icon for external cards and a fallback “Open in new tab” button.
+
+  - date: 2025-09-10
+    icon: "📝"
+    title: "Gallery: Markdown/HTML Inline Viewer"
+    desc: >
+      Integrated an inline Markdown/HTML viewer with a return-to-gallery button.
+      Added marked.js and highlight.js for consistent syntax highlighting (Monokai Light theme).
+      Greatly improved readability for technical notes and embedded demos.
+
+  - date: 2025-09-06
+    icon: "🧪"
+    title: "Initialized Bioinformatics, Biostatistics, and AI for Science Galleries"
+    desc: >
+      Created three dedicated galleries with unified layouts and data sources (YAML-based).
+      Connected them to the shared `gallery.html` template, which supports section intro, placeholder cards,
+      and automatic date display.
+
+  - date: 2025-09-02
+    icon: "🖼️"
+    title: "Reusable Gallery Template & Data Visualization Launch"
+    desc: >
+      Designed a reusable gallery template with consistent card layout, 4-column grid, and soft spacing.
+      Added automatic item counting and last-update display.
+      Launched the **Data Visualization** section as the first visual project gallery.
+
+  - date: 2025-08-27
+    icon: "📚"
+    title: "Publications: Card Layout and NEW Tag"
+    desc: >
+      Implemented a side-by-side publication card design (image + text) with scrollable preview frames.
+      Highlighted author contributions (first/co-first/co-author) and added links for “Full Text,” “News,” and “Software.”
+      Introduced a pulsating **NEW** label for recent papers.
+
+  - date: 2025-08-23
+    icon: "🧠"
+    title: "Resume: Timeline and Skill Grouping"
+    desc: >
+      Completed the Education and Experience timelines and grouped skills into visual chip-style blocks.
+      Added subtle **NEW** highlights for recently learned skills and refined navigation anchors
+      for smoother scrolling and readability.
+
+  - date: 2025-08-20
+    icon: "🚫"
+    title: "Custom 404 Page with Real-Time Clock"
+    desc: >
+      Built a warm, minimal 404 page with a live timestamp and “Back to Home” button.
+      Displayed local time (America/Chicago) to make the error message feel more personal and contextual.
+
+  - date: 2025-08-19
+    icon: "🪶"
+    title: "Acknowledgement Page Added and Styled"
+    desc: >
+      Introduced a new Acknowledgement section with justified paragraphs, optimized line spacing,
+      and unified color palette. Added an automatic timestamp footer to emphasize transparency
+      and ongoing maintenance.
+
+  - date: 2025-08-16
+    icon: "🏠"
+    title: "Home Page Design and Visual Identity"
+    desc: >
+      Designed the landing page with a large name header, concise self-introduction, and social icons.
+      Finalized the main color palette and font hierarchy, aligning link and accent colors
+      for better visual consistency.
+
+  - date: 2025-08-13
+    icon: "🧱"
+    title: "Layout and UI Foundation"
+    desc: >
+      Completed the core `default` layout and foundational UI components (Home, Resume, Publications).
+      Established reusable section structures and defined base color/typography variables for coherent site design.
+
+  - date: 2025-08-07
+    icon: "🎨"
+    title: "Theme and Sidebar Framework"
+    desc: >
+      Implemented the sidebar with avatar, navigation, and social icon placeholders.
+      Established responsive grid structure and typography rhythm.
+      Integrated Google Fonts and Font Awesome to ensure visual harmony.
+
+  - date: 2025-08-05
+    icon: "🛠️"
+    title: "Website Framework Initialization"
+    desc: >
+      Initialized the Jekyll project structure and configuration.
+      Set up `default` layout, assets directories, and responsive design baseline.
+      Confirmed local build stability and deployment readiness.

@@ -1,0 +1,18 @@
+last_updated: 2025-10-15  # <== manually updated
+items:
+  - title: "How I Build and Use Color Palettes"
+    image: "/assets/viz/colormaps/GilmoregirlsColorPalette.png"
+    link: "/assets/viz/colormaps/mycolormaps.html"
+    desc: "From finding inspiration to coding your own gradients, this notebook shows how to make colors work beautifully in your data plots."
+    #added: 2025-10-08        # 新增：添加日期（YYYY-MM-DD）
+    #updated: 2025-10-08      # 可选：更新日期
+
+  - title: "Comparing Model Separability"
+    image: "/assets/viz/roc_demo.png"
+    link: "/assets/viz/roc_plot/roc_plot_combined.html"
+    desc: "Customized ROC curve visualization pipeline implemented in R and Python — integrating AUC computation, confidence intervals, and comparative model evaluation."
+    #added: 2025-10-15        # 新增：添加日期（YYYY-MM-DD）
+    #updated: 2025-10-15      # 可选：更新日期
+
+
+

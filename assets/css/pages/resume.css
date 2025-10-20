@@ -1,0 +1,437 @@
+/* Resume */
+.resume.section h2 {
+    margin-top: 0;
+}
+
+.resume-actions {
+margin: 10px 0 24px;
+}
+
+.resume-subtitle {
+    margin: 28px 0 12px;
+    font-size: 20px;
+    font-weight: 700;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+
+
+/* Timeline Block: education/experience */ 
+.timeline {
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    gap: 16px 18px; /* row gap, column gap */
+    margin-bottom: 12px;
+}
+
+.entry { display: contents; }  
+
+.when {
+    color: #e2b44d;
+    font-weight: 700;
+    line-height: 1.4;
+}
+
+.body {
+    background: rgba(0,0,0,0.18);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 12px;
+    padding: 12px 16px;
+}
+
+.body .role {
+    font-weight: 700;
+    margin-bottom: 2px;
+}
+.body .org {
+    opacity: .9;
+    margin-bottom: 6px;
+}
+
+.body .thesis {
+    margin-top: 6px;
+    font-size: 15px;
+    color: #ddd;
+    font-style: italic;
+}
+
+.body .desc {
+    opacity: .95;
+}
+
+.bullets {
+    margin: 8px 0 0;
+    padding-left: 18px;
+}
+
+
+
+/* Skills Groups */
+.skills-wrap {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 18px;
+}
+@media (min-width: 720px) {
+    .skills-wrap { grid-template-columns: 1fr 1fr; }
+}
+
+.skills-group {
+    background: rgba(0,0,0,0.18);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 12px;
+    padding: 12px 16px;
+}
+.skills-title {
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: #e2b44d;
+}
+
+.skill-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    }
+.chip {
+    display: inline-block;
+    padding: 6px 10px;
+    border-radius: 9999px;
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.18);
+    color: #fff;
+    font-size: 14px;
+    white-space: nowrap;
+    }
+
+
+/* Highlight subtitle. eg. Skills */
+.new-tag {
+    background: #e2b44d;
+    color: #fff;
+    font-size: 0.7em;
+    padding: 2px 6px;
+    border-radius: 4px;
+    margin-left: 6px;
+    animation: blink 1.2s infinite;
+}
+
+@keyframes blink {
+50% { opacity: 0.4; }
+}
+
+/* Highlight new skills */
+.highlight-skill {
+    background: #e2b44d;  
+    color: #6a3e3e;       
+    font-weight: bold;
+    border-radius: 20px;
+    padding: 6px 14px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    margin: 5px;
+    animation: pulse 1.5s infinite;
+}
+
+  /* NEW tag in skills */
+.new-label {
+    background: #ff6f61;  
+    color: white;
+    font-size: 0.7em;
+    font-weight: bold;
+    padding: 2px 6px;
+    border-radius: 10px;
+    margin-left: 5px;
+    animation: blink 1.2s infinite;
+}
+
+  /* pulse light effect */
+@keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(226, 180, 77, 0.6); }
+    70% { box-shadow: 0 0 12px 14px rgba(226, 180, 77, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(226, 180, 77, 0); }
+}
+
+/* NEW tag flash */
+@keyframes blink {
+    0%, 50%, 100% { opacity: 1; }
+    25%, 75% { opacity: 0; }
+}
+
+
+
+/* ===== Resume Slider Base ===== */
+.resume-slider {
+    position: relative;
+    width: 100%;
+    max-width: 1300px;
+    height: 75vh;
+    overflow: hidden;
+    border-radius: 16px;
+    background: rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+    margin: 20px auto 10;
+    
+  }
+  
+  /* Slide 样式 */
+  .resume-slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    padding: 30px 60px;
+    opacity: 0;
+    transform: scale(0.98);
+    transition: opacity 0.8s ease, transform 0.6s ease;
+  }
+  
+  .resume-slide.active {
+    opacity: 1;
+    transform: scale(1);
+    z-index: 10;
+  }
+  
+  /* 美化滚动条 */
+  .resume-slide::-webkit-scrollbar {
+    width: 8px;
+  }
+  .resume-slide::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.25);
+    border-radius: 4px;
+  }
+  .resume-slide::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.4);
+  }
+  
+/* ===== Resume Floating Nav (统一大小 + Skills 白色闪烁) ===== */
+.resume-nav {
+  position: fixed;
+  bottom: 25px;
+  right: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 12px;
+  z-index: 1000;
+}
+
+/* 通用按钮样式 */
+.resume-nav a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100px;           /* ✅ 固定宽度 */
+  height: 30px;           /* ✅ 固定高度 */
+  font-weight: 700;
+  font-size: 15px;
+  text-decoration: none;
+  color: #6a3e3e;
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 24px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+/* Hover 效果 */
+.resume-nav a:hover {
+  background: #e2b44d;
+  color: #fff;
+  transform: scale(1.05);
+}
+
+/* 高亮当前页面 */
+.resume-nav a.highlight {
+  background: #ffd780;
+  color: #6a3e3e;
+  box-shadow: 0 0 10px 3px rgba(255, 255, 255, 0.5);
+}
+
+/* Skills 专属闪烁光效果 */
+.resume-nav a[data-target="skills"].highlight {
+  animation: whiteGlow 1.8s ease-in-out infinite;
+}
+
+@keyframes whiteGlow {
+  0%, 100% { 
+    box-shadow: 0 0 10px 2px rgba(255, 255, 255, 0.5); 
+    background-color: #ffd780;
+  }
+  50% { 
+    box-shadow: 0 0 20px 6px rgba(255, 255, 255, 0.9); 
+    background-color: #ffe9a3;
+  }
+}
+
+/* 鼠标悬停时用「?」光标 */
+.resume-nav a {
+    cursor: zoom-in;
+  }
+  
+  /* 常见类型的鼠标样式：
+     cursor: zoom-in;        放大镜
+     cursor: help;           问号帮助
+     cursor: crosshair;      十字线
+     cursor: grab;           抓手
+     cursor: pointer;        手形（最常见）
+  */
+  /* ===== 高亮项样式 ===== */
+  .resume-nav a.highlight {
+    background: #ffd780;
+    color: #6a3e3e;
+    border: 2px solid #ffb84d;
+    box-shadow: 0 0 8px #ffd780;
+    animation: soft-glow 2s infinite;
+  }
+  
+  /* Skills 特别闪烁高亮 ✨ */
+  .resume-nav a[data-target="skills"] {
+    animation: glowLoop 2s infinite;
+  }
+  @keyframes glowLoop {
+    0%, 100% { box-shadow: 0 0 8px #fffcf7; background: rgba(254, 251, 243, 0.6); }
+    50% { box-shadow: 0 0 18px #edece7; background: #fcfaf5; }
+  }
+
+
+.resume-nav a.request-cv { cursor: grab; } 
+
+/* === 气泡提示容器 === */
+.cv-hint-wrapper {
+    position: relative;
+    display: inline-block;
+  }
+  
+  /* === 提示气泡 === */
+  .cv-hint-bubble {
+    position: absolute;
+    bottom: 120%;  /* 气泡出现在按钮上方 */
+    right: 0;
+    background: #fff8d4;
+    color: #5a3a1c;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 8px 12px;
+    border-radius: 10px;
+    white-space: nowrap;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+    opacity: 0;
+    transform: translateY(10px) scale(0.95);
+    pointer-events: none;
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    z-index: 999;
+  }
+  
+  /* === 手绘箭头 === */
+  .cv-hint-bubble .arrow {
+    content: "";
+    position: absolute;
+    bottom: -6px;
+    right: 20px;
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 6px solid #fff8d4;
+    filter: drop-shadow(0 2px 2px rgba(0,0,0,0.2));
+  }
+  
+  /* === 悬停显示气泡 === */
+  .cv-hint-wrapper:hover .cv-hint-bubble {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  
+  /* === 手绘箭头动画（轻轻摇摆）=== */
+  @keyframes handArrow {
+    0%, 100% { transform: rotate(-15deg) translateX(0); }
+    50% { transform: rotate(-5deg) translateX(-3px); }
+  }
+  
+  /* 如果你想添加“手绘风格箭头”在按钮旁边而非气泡内 */
+  .cv-hint-wrapper::after {
+    content: "➶"; /* 或者换成 🖋 ✏️ 🪶 等 emoji */
+    position: absolute;
+    bottom: 25%;
+    right: 105%;
+    font-size: 22px;
+    color: #ffd95a;
+    transform: rotate(-20deg);
+    animation: handArrow 1.5s infinite ease-in-out;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+  
+  /* 悬停时显示箭头 */
+  .cv-hint-wrapper:hover::after {
+    opacity: 1;
+  }
+
+
+/* ===== Skills Button Highlight Flash ===== */
+.skill-new {
+    position: relative;
+    animation: soft-glow-skill 2s infinite ease-in-out;
+  }
+  
+  /* ===== “NEW!” 气泡提示 - 右侧版本 ===== */
+  .skill-new .new-hint {
+    position: absolute;
+    right: -20px; /* 改为右侧位置 */
+    top: 50%;
+    transform: translateY(-50%);
+    background: #ffd97a;
+    color: #3c2f2f;
+    font-weight: bold;
+    font-size: 12px;
+    padding: 4px 10px;
+    border-radius: 8px;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.25);
+    opacity: 0;
+    white-space: nowrap;
+    animation: fadeInHint 0.6s ease-out 1s forwards, autoHideHint 7s forwards;
+    pointer-events: none;
+    z-index: 10;
+  }
+  
+  /* 小三角箭头（指向左边） */
+  .skill-new .new-hint::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: -6px; /* 指向按钮 */
+    transform: translateY(-50%);
+    border-width: 6px 6px 6px 0;
+    border-style: solid;
+    border-color: transparent #ffd97a transparent transparent;
+  }
+  
+  /* ===== 动画效果 ===== */
+  @keyframes soft-glow-skill {
+    0%, 100% { box-shadow: 0 0 12px 2px rgba(255, 255, 255, 0.5); }
+    50% { box-shadow: 0 0 22px 6px rgba(255, 255, 255, 0.9); }
+  }
+  
+  /* 初始淡入 */
+  @keyframes fadeInHint {
+    0% { opacity: 0; transform: translate(5px, -50%); }
+    100% { opacity: 1; transform: translate(0, -50%); }
+  }
+  
+  /* 5秒后自动淡出 */
+  @keyframes autoHideHint {
+    0%, 60% { opacity: 1; }
+    100% { opacity: 0; transform: translate(5px, -50%); }
+  }
+  
+  /* 鼠标悬停重新显示 */
+  .skill-new:hover .new-hint {
+    opacity: 1;
+    animation: none;
+  }

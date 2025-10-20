@@ -1,0 +1,17 @@
+last_updated: 2025-10-10  # <== manually updated
+items:
+  - title: "Approaches to cfDNA Fragmentomics"
+    image: "/assets/bioinfo/fragmentomics-1.jpg"
+    url: "https://github.com/huxii2017/cfOmicsToolkit"
+    embed: true
+    desc: "Transforming cfDNA alignments into fragmentomic insights — decoding patterns in size, end motifs, and coverage etc. through data-driven pipelines. (on-going)"
+    added: 2025-10-05        # 新增：添加日期（YYYY-MM-DD）
+    updated: 2025-10-05      # 可选：更新日期
+
+  - title: "VS Code Access to Google Cloud"
+    image: "/assets/bioinfo/gcp-vscode-workflow.jpg"
+    url: "https://github.com/huxii2017/gcp-vscode-workflow"
+    embed: true
+    desc: "A practical setup that enables direct access to Google Cloud instances from VS Code — featuring streamlined SSH connection, file synchronization, and automation scripts for running cloud-based analysis."
+    added: 2025-10-09       # 新增：添加日期（YYYY-MM-DD）
+    updated: 2025-10-09      # 可选：更新日期

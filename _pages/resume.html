@@ -1,0 +1,112 @@
+---
+layout: default
+title: Resume
+permalink: /resume/
+page_css: resume
+
+---
+
+
+<section id="resume" class="resume section">
+  <h2>Resume</h2>
+
+  <!-- 外层固定窗口 -->
+  <div class="resume-slider">
+    <div class="resume-slide active" id="education">
+      <h3><i class="fas fa-graduation-cap"></i> Education</h3>
+      {% include education.html %}
+    </div>
+
+    <div class="resume-slide" id="experience">
+      <h3><i class="fas fa-briefcase"></i> Experience</h3>
+      {% include experience.html %}
+    </div>
+
+    <div class="resume-slide" id="skills">
+      <h3><i class="fas fa-tools"></i> Skills</h3>
+      {% include skills.html %}
+    </div>
+  </div>
+
+  <!-- 右下角浮动导航 -->
+  <nav class="resume-nav">
+    <a data-target="education">Education</a>
+    <a data-target="experience">Experience</a>
+    <a data-target="skills" >Skills ✨</a>
+    <!--
+    <a data-target="skills" class="highlight skill-new">
+      Skills ✨
+      <span class="new-hint">NEW!</span>
+    </a>
+    -->
+    <!-- <a href="mailto:huxii2017@gmail.com" class="request-cv">CV</a> -->
+    <div class="cv-hint-wrapper">
+      <a href="mailto:huxii2017@gmail.com" class="request-cv">
+        Request CV
+      </a>
+      <div class="cv-hint-bubble">
+        Request the full version of Xi's CV via email ✉️
+        <span class="arrow"></span>
+      </div>
+    </div>
+  </nav>
+</section>
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const slides = document.querySelectorAll(".resume-slide");
+    const navLinks = document.querySelectorAll(".resume-nav a[data-target]");
+    let activeIndex = 0;
+    let autoPlayTimer = null;
+    let isHovered = false;
+    const intervalTime = 5000; // 每5秒自动切换
+  
+    // 淡入淡出切换动画
+    function showSlide(index) {
+      if (index === activeIndex) return;
+      const current = slides[activeIndex];
+      const next = slides[index];
+  
+      current.classList.remove("active");
+      next.classList.add("active");
+      activeIndex = index;
+  
+      // 更新导航高亮
+      navLinks.forEach(link => link.classList.remove("highlight"));
+      navLinks[index].classList.add("highlight");
+    }
+  
+    // 自动播放函数
+    function startAutoPlay() {
+      autoPlayTimer = setInterval(() => {
+        if (!isHovered) {
+          let nextIndex = (activeIndex + 1) % slides.length;
+          showSlide(nextIndex);
+        }
+      }, intervalTime);
+    }
+  
+    function stopAutoPlay() {
+      clearInterval(autoPlayTimer);
+    }
+  
+    // 鼠标悬停暂停
+    slides.forEach(slide => {
+      slide.addEventListener("mouseenter", () => { isHovered = true; });
+      slide.addEventListener("mouseleave", () => { isHovered = false; });
+    });
+  
+    // 点击导航切换
+    navLinks.forEach((link, i) => {
+      link.addEventListener("click", () => {
+        stopAutoPlay(); // 点击时先停止
+        showSlide(i);
+        startAutoPlay(); // 然后重新计时
+      });
+    });
+  
+    // 初始化
+    startAutoPlay();
+  });
+  </script>

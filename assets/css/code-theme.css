@@ -1,0 +1,56 @@
+/* ===== Custom Code Highlight Theme (Warm Red-Gold) ===== */
+.hljs {
+  background: #4a2b2b;           /* 深棕红背景 */
+  color: #f8f8f2;                /* 主体文字偏暖白 */
+  border-radius: 10px;
+  padding: 1em;
+  overflow-x: auto;
+  line-height: 1.5;
+}
+
+/* 注释（灰粉色） */
+.hljs-comment,
+.hljs-quote {
+  color: #b48b7d;
+  font-style: italic;
+}
+
+/* 关键字、函数、类名（亮金色） */
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-name,
+.hljs-attr {
+  color: #e2b44d;
+  font-weight: 600;
+}
+
+/* 字符串、常量（浅橙色） */
+.hljs-string,
+.hljs-number,
+.hljs-literal {
+  color: #ffce85;
+}
+
+/* 函数调用（浅金色） */
+.hljs-title,
+.hljs-built_in {
+  color: #ffeab6;
+}
+
+/* 属性和变量名（浅粉） */
+.hljs-variable,
+.hljs-template-variable {
+  color: #f0b7a4;
+}
+
+/* 突出显示的行（可选） */
+.hljs-emphasis {
+  color: #ffdda0;
+  font-style: italic;
+}
+
+/* 加粗（用于类型） */
+.hljs-strong {
+  color: #ffd166;
+  font-weight: bold;
+}

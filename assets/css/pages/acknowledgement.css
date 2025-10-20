@@ -1,0 +1,6 @@
+/* Justify acknowledgement paragraphs */
+#acknowledgement p {
+    text-align: justify;
+    text-justify: inter-word; /* 让字间距更自然 */
+}
+

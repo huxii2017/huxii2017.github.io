@@ -1,0 +1,9 @@
+last_updated: 2025-10-05  # <== manually updated
+items:
+  - title: "Transformer-based deep learning for epigenetic analysis"
+    image: "/assets/ai/HK_model_2.png"
+    url: "http://project.cpy.cuhk.edu.hk/HKmodel2/"
+    embed: true
+    desc: "See more details from publications."
+    #added: 2025-10-05        # 新增：添加日期（YYYY-MM-DD
+    #updated: 2025-10-05      # 可选：更新日期

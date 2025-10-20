@@ -1,0 +1,11 @@
+_site
+.sass-cache
+.jekyll-cache
+.jekyll-metadata
+z-gallery-images.pptx
+vendor
+assets/viz/*/*.md
+assets/viz/*/*.ipynb
+
+assets/biostat/*/*.md
+assets/biostat/*/*.ipynb

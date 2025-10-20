@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>mycolormaps</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="../../css/github-plus.css" />
+  <link rel="stylesheet" href="../../css/code-theme.css" />
+  <link rel="stylesheet" href="../../css/github-markdown.css" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <base target="_blank">
+</head>
+<body>
+<h1 id="my-color-maps-how-i-build-and-use-color-palettes">My color maps: How I build and use color palettes?</h1>
+<details open>
+<summary>
+<b>🗂️ Table of Contents</b>
+</summary>
+<p><a href="#introduction">Part 1: Find and Create Your Own Color Palettes</a></p>
+<p><a href="#colormaps">Part 2: Explore Built-in Color Libraries in Python and R</a></p>
+<p><a href="#build_icmp">Part 3: Create Your Own Color Palettes in Python &amp; R</a></p>
+<p><a href="#Summary">Summary</a></p>
+</details>
+<h2 id="introduction">🎨 Part 1: Find and Create Your Own Color Palettes</h2>
+<p>Color is one of the most powerful tools in visual communication. Picking the right palette can make your data and story truly shine ✨.</p>
+<p>Over time, I’ve found a few websites that really inspired me — great places to explore, discover, and build your own color palettes:</p>
+<hr />
+<h3 id="my-go-to-palette-resources">🌈 My Go-To Palette Resources</h3>
+<table>
+<colgroup>
+<col style="width: 43%" />
+<col style="width: 56%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Website</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="https://www.color-hex.com/"><strong>Color-Hex</strong></a></td>
+<td>My favorite 💗 site for exploring, editing, and saving color palettes. It also shows gradient previews and related shades.</td>
+</tr>
+<tr class="even">
+<td><a href="https://colorhunt.co/palettes/popular"><strong>Color Hunt</strong></a></td>
+<td>A collection of trendy palettes shared by creators worldwide — great for quick inspiration.</td>
+</tr>
+<tr class="odd">
+<td><a href="https://www.colorhexa.com/color-names"><strong>Color Hexa</strong></a></td>
+<td>A detailed encyclopedia of color names, codes, and variations (HEX, RGB, HSL). Perfect for fine-tuning tones.</td>
+</tr>
+<tr class="even">
+<td><a href="https://imagecolorpicker.com/"><strong>Image Color Picker</strong></a></td>
+<td>Upload any image and instantly extract its key colors — ideal for designing around your favorite photos.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="my-website-palette">My Website Palette 🤎🤍</h3>
+<p>The color theme, “Cappuccino”, used on my website was picked from <a href="https://www.color-hex.com/color-palette/389"><strong>this palette on Color-Hex</strong></a>:</p>
+<table>
+<tr>
+<th>
+Color
+</th>
+<th>
+HEX Code
+</th>
+</tr>
+<tr>
+<td>
+<div style="width:25px; height:25px; background:#4b3832; border-radius:4px; border:1px solid #ccc;">
+
+</div>
+</td>
+<td>
+<code>#4b3832</code>
+</td>
+</tr>
+<tr>
+<td>
+<div style="width:25px; height:25px; background:#854442; border-radius:4px; border:1px solid #ccc;">
+
+</div>
+</td>
+<td>
+<code>#854442</code>
+</td>
+</tr>
+<tr>
+<td>
+<div style="width:25px; height:25px; background:#fff4e6; border-radius:4px; border:1px solid #ccc;">
+
+</div>
+</td>
+<td>
+<code>#fff4e6</code>
+</td>
+</tr>
+<tr>
+<td>
+<div style="width:25px; height:25px; background:#3c2f2f; border-radius:4px; border:1px solid #ccc;">
+
+</div>
+</td>
+<td>
+<code>#3c2f2f</code>
+</td>
+</tr>
+<tr>
+<td>
+<div style="width:25px; height:25px; background:#be9b7b; border-radius:4px; border:1px solid #ccc;">
+
+</div>
+</td>
+<td>
+<code>#be9b7b</code>
+</td>
+</tr>
+</table>
+<p>This color palette “Cappuccino” evokes the cozy warmth of a freshly brewed latte on a quiet afternoon. It blends deep and soft brown tones with gentle cream hues, creating a warm, calm, and comforting atmosphere.</p>
+<ul>
+<li><p>The dark browns <span style="color:#4b3832; background:#fff4e6; padding:2px 5px; border-radius:3px;"> #4b3832</span> and <span style="color:#3c2f2f; background:#fff4e6; padding:2px 5px; border-radius:3px;"> #3c2f2f</span> resemble the rich espresso base — grounded, deep, and comforting.</p></li>
+<li><p>The reddish brown <span style="color:#854442; background:#fff4e6; padding:2px 5px; border-radius:3px;"> #854442</span> adds a touch of cocoa or cinnamon, bringing gentle warmth to the mix.</p></li>
+<li><p>The creamy beige <span style="color:#fff4e6; background:#4b3832; padding:2px 5px; border-radius:3px;">#fff4e6</span> feels like a swirl of milk foam — light, airy, and smooth.、</p></li>
+<li><p>The soft tan <span style="color:#be9b7b; background:#4b3832; padding:2px 5px; border-radius:3px;">#be9b7b</span> finishes the palette like a drizzle of caramel, rounded and elegant.</p></li>
+</ul>
+<p>Overall, it gives a sense of relaxation, elegance, and handcrafted charm, perfect for designs inspired by lifestyle, coffee culture, or warm storytelling. ☕ I love it!</p>
+<hr />
+<h3 id="tip">💡 Tip</h3>
+<p>When you find a palette you love, save both the color blocks and their HEX codes. You’ll use them later in your Python or R plots — which we’ll cover in the next part.</p>
+<hr />
+<h2 id="colormaps">🎨 Part 2: Explore Built-in Color Libraries in Python and R</h2>
+<p>Once you’ve found your favorite palettes, it’s time to use them in your plots!<br />
+Both <strong>Python</strong> and <strong>R</strong> provide rich collections of built-in color libraries that make your data visualizations look polished and consistent.</p>
+<hr />
+<h3 id="python-color-libraries">Python Color Libraries</h3>
+<p>Python offers several great packages for working with colors in plots:</p>
+<h4 id="matplotlib">1. <a href="https://matplotlib.org/stable/gallery/color/colormap_reference.html"><strong>Matplotlib</strong></a></h4>
+<p>Matplotlib includes many predefined color maps and color names. &gt; 👉 Try other colormaps such as <code>'plasma'</code>, <code>'inferno'</code>, <code>'coolwarm'</code>,<code>'viridis'</code>, or <code>'Pastel1'</code>.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Show some of Matplotlib&#39;s built-in colormaps</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>gradient <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">256</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>gradient <span class="op">=</span> np.vstack((gradient, gradient))</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> <span class="bu">cmp</span> <span class="kw">in</span> [<span class="st">&#39;plasma&#39;</span>, <span class="st">&#39;inferno&#39;</span>, <span class="st">&#39;coolwarm&#39;</span>, <span class="st">&#39;Pastel1&#39;</span>,<span class="st">&#39;viridis&#39;</span>]:</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    plt.figure(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">1</span>))</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    plt.imshow(gradient, aspect<span class="op">=</span><span class="st">&#39;auto&#39;</span>, cmap<span class="op">=</span>plt.get_cmap(<span class="bu">cmp</span>))</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    plt.title(<span class="ss">f&quot;Matplotlib&#39;s &#39;</span><span class="sc">{</span><span class="bu">cmp</span><span class="sc">}</span><span class="ss">&#39; colormap&quot;</span>)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    plt.axis(<span class="st">&#39;off&#39;</span>)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    plt.show()</span></code></pre></div>
+<figure>
+<img src="mycolormaps_files/mycolormaps_2_0.png" alt="png" /><figcaption aria-hidden="true">png</figcaption>
+</figure>
+<figure>
+<img src="mycolormaps_files/mycolormaps_2_1.png" alt="png" /><figcaption aria-hidden="true">png</figcaption>
+</figure>
+<figure>
+<img src="mycolormaps_files/mycolormaps_2_2.png" alt="png" /><figcaption aria-hidden="true">png</figcaption>
+</figure>
+<figure>
+<img src="mycolormaps_files/mycolormaps_2_3.png" alt="png" /><figcaption aria-hidden="true">png</figcaption>
+</figure>
+<figure>
+<img src="mycolormaps_files/mycolormaps_2_4.png" alt="png" /><figcaption aria-hidden="true">png</figcaption>
+</figure>
+<h4 id="seaborn"><a href="https://seaborn.pydata.org/tutorial/color_palettes.html"><strong>2. Seaborn</strong></a></h4>
+<p>Seaborn builds on Matplotlib and provides high-level color palettes.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>sns.color_palette(<span class="st">&quot;hls&quot;</span>, <span class="dv">8</span>) <span class="co">#circular color systems</span></span></code></pre></div>
+<svg width="440" height="55">
+<rect x="0" y="0" width="55" height="55" style="fill:#db5f57;stroke-width:2;stroke:rgb(255,255,255)"/><rect x="55" y="0" width="55" height="55" style="fill:#dbc257;stroke-width:2;stroke:rgb(255,255,255)"/><rect x="110" y="0" width="55" height="55" style="fill:#91db57;stroke-width:2;stroke:rgb(255,255,255)"/><rect x="165" y="0" width="55" height="55" style="fill:#57db80;stroke-width:2;stroke:rgb(255,255,255)"/><rect x="220" y="0" width="55" height="55" style="fill:#57d3db;stroke-width:2;stroke:rgb(255,255,255)"/><rect x="275" y="0" width="55" height="55" style="fill:#5770db;stroke-width:2;stroke:rgb(255,255,255)"/><rect x="330" y="0" width="55" height="55" style="fill:#a157db;stroke-width:2;stroke:rgb(255,255,255)"/><rect x="385" y="0" width="55" height="55" style="fill:#db57b2;stroke-width:2;stroke:rgb(255,255,255)"/>
+</svg>
+<div class="sourceCode" id="cb3"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>sns.color_palette(<span class="st">&quot;Paired&quot;</span>) <span class="co">#categorical Color Brewer palettes</span></span></code></pre></div>
+<svg width="660" height="55">
+<rect x="0" y="0" width="55" height="55" style="fill:#a6cee3;stroke-width:2;stroke:rgb(255,255,255)"/><rect x="55" y="0" width="55" height="55" style="fill:#1f78b4;stroke-width:2;stroke:rgb(255,255,255)"/><rect x="110" y="0" width="55" height="55" style="fill:#b2df8a;stroke-width:2;stroke:rgb(255,255,255)"/><rect x="165" y="0" width="55" height="55" style="fill:#33a02c;stroke-width:2;stroke:rgb(255,255,255)"/><rect x="220" y="0" width="55" height="55" style="fill:#fb9a99;stroke-width:2;stroke:rgb(255,255,255)"/><rect x="275" y="0" width="55" height="55" style="fill:#e31a1c;stroke-width:2;stroke:rgb(255,255,255)"/><rect x="330" y="0" width="55" height="55" style="fill:#fdbf6f;stroke-width:2;stroke:rgb(255,255,255)"/><rect x="385" y="0" width="55" height="55" style="fill:#ff7f00;stroke-width:2;stroke:rgb(255,255,255)"/><rect x="440" y="0" width="55" height="55" style="fill:#cab2d6;stroke-width:2;stroke:rgb(255,255,255)"/><rect x="495" y="0" width="55" height="55" style="fill:#6a3d9a;stroke-width:2;stroke:rgb(255,255,255)"/><rect x="550" y="0" width="55" height="55" style="fill:#ffff99;stroke-width:2;stroke:rgb(255,255,255)"/><rect x="605" y="0" width="55" height="55" style="fill:#b15928;stroke-width:2;stroke:rgb(255,255,255)"/>
+</svg>
+<div class="sourceCode" id="cb4"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Sequential color palettes</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>sns.color_palette(<span class="st">&quot;rocket&quot;</span>, as_cmap<span class="op">=</span><span class="va">True</span>) <span class="co">#Perceptually uniform palettes</span></span></code></pre></div>
+<div class="cmap">
+<img alt="rocket colormap" title="rocket" style="border: 1px solid #555;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAgAAAABACAYAAABsv8+/AAAAFXRFWHRUaXRsZQByb2NrZXQgY29sb3JtYXCDKv+2AAAAG3RFWHREZXNjcmlwdGlvbgByb2NrZXQgY29sb3JtYXDKvedSAAAAMXRFWHRBdXRob3IATWF0cGxvdGxpYiB2My4xMC4wLCBodHRwczovL21hdHBsb3RsaWIub3Jns5fOBgAAADN0RVh0U29mdHdhcmUATWF0cGxvdGxpYiB2My4xMC4wLCBodHRwczovL21hdHBsb3RsaWIub3JnFrPd8gAAAhNJREFUeJzt1ktW7CAARVGgnITzHyh2knIFQhHt3r07Lv7x+Rqntq/vXkoptdZSSim1HD+PcdvNn+PNuXH/an66p2zO/Xf89J3VvuHe1fzvPeXZ9xz72tN7xnPT95SP4/m+xf761/PHfF/Mr/Yv7z/me1mcG+7r433jd93P78613u/Xp3P9833TPX34fVbz/fN8vd93/PlKq/1+/zlfN/Ptet88P6yP8234jsV6Hd9p9+tluX78wyznx3G9jt/31mH/dfx7rl7Gu/nl+vsP1Rb72qP957hu1nfnz/X6Xl+d++/86t3VvuvPOu3bvfN6dv/2/ft75u95+t7rmN69//Td+/3j/ed/YwAgiAAAgEACAAACCQAACCQAACCQAACAQAIAAAIJAAAIJAAAIJAAAIBAAgAAAgkAAAgkAAAgkAAAgEACAAACCQAACCQAACCQAACAQAIAAAIJAAAIJAAAIJAAAIBAAgAAAgkAAAgkAAAgkAAAgEACAAACCQAACCQAACCQAACAQAIAAAIJAAAIJAAAIJAAAIBAAgAAAgkAAAgkAAAgkAAAgEACAAACCQAACCQAACCQAACAQAIAAAIJAAAIJAAAIJAAAIBAAgAAAgkAAAgkAAAgkAAAgEACAAACCQAACCQAACCQAACAQAIAAAIJAAAIJAAAIJAAAIBAAgAAAgkAAAgkAAAgkAAAgEACAAAC/QBTdSs/mmmG3QAAAABJRU5ErkJggg==">
+</div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>sns.color_palette(<span class="st">&quot;rocket&quot;</span>) <span class="co">#Discrete vs. continuous mapping</span></span></code></pre></div>
+<svg width="330" height="55">
+<rect x="0" y="0" width="55" height="55" style="fill:#35193e;stroke-width:2;stroke:rgb(255,255,255)"/><rect x="55" y="0" width="55" height="55" style="fill:#701f57;stroke-width:2;stroke:rgb(255,255,255)"/><rect x="110" y="0" width="55" height="55" style="fill:#ad1759;stroke-width:2;stroke:rgb(255,255,255)"/><rect x="165" y="0" width="55" height="55" style="fill:#e13342;stroke-width:2;stroke:rgb(255,255,255)"/><rect x="220" y="0" width="55" height="55" style="fill:#f37651;stroke-width:2;stroke:rgb(255,255,255)"/><rect x="275" y="0" width="55" height="55" style="fill:#f6b48f;stroke-width:2;stroke:rgb(255,255,255)"/>
+</svg>
+<div class="sourceCode" id="cb6"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>sns.color_palette(<span class="st">&quot;cubehelix&quot;</span>, as_cmap<span class="op">=</span><span class="va">True</span>) <span class="co">#Sequential “cubehelix” palettes</span></span></code></pre></div>
+<div class="cmap">
+<img alt="cubehelix colormap" title="cubehelix" style="border: 1px solid #555;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAgAAAABACAYAAABsv8+/AAAAGHRFWHRUaXRsZQBjdWJlaGVsaXggY29sb3JtYXDGzLN6AAAAHnRFWHREZXNjcmlwdGlvbgBjdWJlaGVsaXggY29sb3JtYXCEV1XxAAAAMXRFWHRBdXRob3IATWF0cGxvdGxpYiB2My4xMC4wLCBodHRwczovL21hdHBsb3RsaWIub3Jns5fOBgAAADN0RVh0U29mdHdhcmUATWF0cGxvdGxpYiB2My4xMC4wLCBodHRwczovL21hdHBsb3RsaWIub3JnFrPd8gAAAltJREFUeJzt1kFu4zAQBMAhnf8/ebWHtWRwRMV776oLMU1GgQyY7lFVR1XVqFFVVXPM2s2z3vkY77XnbX3ns+dtrXb+cf+c537/c26s+dyfq9nP/T4f1zzac8e638598nrY73nt82uu5dw5H7f9Y3mdnn+edyyvdc5P+bieu5+v//tePx/TsV3n/LPOff/6WI/f13rK/3m1/HW+1pf51f++59f+OY/9/i0f2/znlp/r3OdHz+fD+fX7+tl/Lc+ZLX+a5/l3D/kcr3Vu63g4N+pnyc9z4zb/7PfH+pzq+Xs983qfu+Wzzdc6t/kx9/u3/P2FOK79nu/n27lrf7S83TvjIW9zv9/6/dPvsaPdV7f8y331v/nnXlle5+v+9TPQ78F2n4zRz6/PeTp3+zmoh3yMNa99/vnYzt/X0Z471rX283jcn+055/cVAIijAABAIAUAAAIpAAAQSAEAgEAKAAAEUgAAIJACAACBFAAACKQAAEAgBQAAAikAABBIAQCAQAoAAARSAAAgkAIAAIEUAAAIpAAAQCAFAAACKQAAEEgBAIBACgAABFIAACCQAgAAgRQAAAikAABAIAUAAAIpAAAQSAEAgEAKAAAEUgAAIJACAACBFAAACKQAAEAgBQAAAikAABBIAQCAQAoAAARSAAAgkAIAAIEUAAAIpAAAQCAFAAACKQAAEEgBAIBACgAABFIAACCQAgAAgRQAAAikAABAIAUAAAIpAAAQSAEAgEAKAAAEUgAAIJACAACBFAAACKQAAEAgBQAAAikAABBIAQCAQAoAAARSAAAg0F+E00N8kEajxAAAAABJRU5ErkJggg==">
+</div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Custom sequential palettes</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>sns.light_palette(<span class="st">&quot;seagreen&quot;</span>, as_cmap<span class="op">=</span><span class="va">True</span>)</span></code></pre></div>
+<div class="cmap">
+<img alt="blend colormap" title="blend" style="border: 1px solid #555;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAgAAAABACAYAAABsv8+/AAAAFHRFWHRUaXRsZQBibGVuZCBjb2xvcm1hcKH0gPAAAAAadEVYdERlc2NyaXB0aW9uAGJsZW5kIGNvbG9ybWFwX6spFgAAADF0RVh0QXV0aG9yAE1hdHBsb3RsaWIgdjMuMTAuMCwgaHR0cHM6Ly9tYXRwbG90bGliLm9yZ7OXzgYAAAAzdEVYdFNvZnR3YXJlAE1hdHBsb3RsaWIgdjMuMTAuMCwgaHR0cHM6Ly9tYXRwbG90bGliLm9yZxaz3fIAAAHNSURBVHic7dbBTsJAFEDR6v9/qYkbf6AuCFanHQRs4uKesxFsZzqPBHJf3j7e12VZlmW5/Fm/3l1frN+ubv+/3retO75vWcd1P++bPXe3//R8w7rp+Y7Psd1157rpXMO5/muur8uPrjt7rusxftl/uO/Pc+2ee3vdNtfxec+ba7L/7nzjugfnuve5z35uJ801/9wn62bf2+nvztlzPbj/cN7z5jpet3/us/ufPdftdafPNft+P7n/+XMN16dzDfvfO9f0fONzL14XACBHAABAkAAAgCABAABBAgAAggQAAAQJAAAIEgAAECQAACBIAABAkAAAgCABAABBAgAAggQAAAQJAAAIEgAAECQAACBIAABAkAAAgCABAABBAgAAggQAAAQJAAAIEgAAECQAACBIAABAkAAAgCABAABBAgAAggQAAAQJAAAIEgAAECQAACBIAABAkAAAgCABAABBAgAAggQAAAQJAAAIEgAAECQAACBIAABAkAAAgCABAABBAgAAggQAAAQJAAAIEgAAECQAACBIAABAkAAAgCABAABBAgAAggQAAAQJAAAIEgAAECQAACBIAABAkAAAgCABAABBAgAAggQAAAQJAAAI+gTmxbueyrobsAAAAABJRU5ErkJggg==">
+</div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>sns.color_palette(<span class="st">&quot;Blues&quot;</span>, as_cmap<span class="op">=</span><span class="va">True</span>)</span></code></pre></div>
+<div class="cmap">
+<img alt="Blues colormap" title="Blues" style="border: 1px solid #555;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAgAAAABACAYAAABsv8+/AAAAFHRFWHRUaXRsZQBCbHVlcyBjb2xvcm1hcIbbCAEAAAAadEVYdERlc2NyaXB0aW9uAEJsdWVzIGNvbG9ybWFweISh5wAAADF0RVh0QXV0aG9yAE1hdHBsb3RsaWIgdjMuMTAuMCwgaHR0cHM6Ly9tYXRwbG90bGliLm9yZ7OXzgYAAAAzdEVYdFNvZnR3YXJlAE1hdHBsb3RsaWIgdjMuMTAuMCwgaHR0cHM6Ly9tYXRwbG90bGliLm9yZxaz3fIAAAHTSURBVHic7dbBTuswAABBw///LwekhAMlCLdWilre4e3MJXKcOHEJ0r68ve/7GGPsn4dxOYzL4Tg/jvHt+eOqB+enxy3nv9d7bP7e/f3v8/Pvs435e9h/N784/zW+f/72e25X7z3Pr/Z3WX8eH9ff3t92HBf7nNY5Xf/k/Pwep9ct71+83/z7LO6/+nvM81f7OPlOzp63Wm+xj3vXu/puTvZzPj7Z1/as5/zuuY+v+/MfbzV/73XPWuevnjf27euGn+NtGq+ue/r4Xz3nc/w6AIAcAQAAQQIAAIIEAAAECQAACBIAABAkAAAgSAAAQJAAAIAgAQAAQQIAAIIEAAAECQAACBIAABAkAAAgSAAAQJAAAIAgAQAAQQIAAIIEAAAECQAACBIAABAkAAAgSAAAQJAAAIAgAQAAQQIAAIIEAAAECQAACBIAABAkAAAgSAAAQJAAAIAgAQAAQQIAAIIEAAAECQAACBIAABAkAAAgSAAAQJAAAIAgAQAAQQIAAIIEAAAECQAACBIAABAkAAAgSAAAQJAAAIAgAQAAQQIAAIIEAAAECQAACBIAABAkAAAgSAAAQJAAAIAgAQAAQQIAAIIEAAAECQAACBIAABAkAAAg6AN8JxhAg+xNEwAAAABJRU5ErkJggg==">
+</div>
+<h4 id="plotly"><a href="https://plotly.com/python/builtin-colorscales/"><strong>3. Plotly</strong></a></h4>
+<p>Plotly’s interactive charts also support a wide variety of built-in and custom colors.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> plotly.express <span class="im">as</span> px</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> px.colors.cyclical.swatches_cyclical()</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>fig.show()</span></code></pre></div>
+<hr />
+<h3 id="r-color-libraries">R Color Libraries</h3>
+<p>R also provides several powerful and elegant color systems for plotting.</p>
+<h4 id="rcolorbrewer"><a href="https://colorbrewer2.org/#type=sequential&amp;scheme=OrRd&amp;n=9"><strong>1. RColorBrewer</strong></a></h4>
+<p>A classic library that provides qualitative, sequential, and diverging palettes.</p>
+<h4 id="viridis"><a href="https://sjmgarnier.github.io/viridis/"><strong>2. viridis</strong></a></h4>
+<p>Color-blind-friendly and perceptually uniform palettes (also available in Python!).</p>
+<h4 id="ggsci"><a href="https://nanx.me/ggsci/"><strong>3. ggsci</strong></a></h4>
+<p>A modern library with scientific journal-style color schemes.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>os.environ[<span class="st">&quot;R_HOME&quot;</span>] <span class="op">=</span> <span class="st">&quot;/opt/anaconda3/envs/Renv/lib/R&quot;</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>os.environ[<span class="st">&quot;DYLD_FALLBACK_LIBRARY_PATH&quot;</span>] <span class="op">=</span> <span class="st">&quot;/opt/anaconda3/envs/Renv/lib/R/lib&quot;</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>load_ext rpy2.ipython</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="sc">%%</span>R</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;ggsci&quot;</span>)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="fu">show_col</span>(<span class="fu">pal_npg</span>(<span class="st">&quot;nrc&quot;</span>)(<span class="dv">8</span>))  <span class="co"># Nature Publishing Group palette</span></span></code></pre></div>
+<figure>
+<img src="mycolormaps_files/mycolormaps_18_0.png" alt="png" /><figcaption aria-hidden="true">png</figcaption>
+</figure>
+<hr />
+<h2 id="build_icmp">🎨 Part 3: Create Your Own Color Palettes in Python &amp; R</h2>
+<p>Now that we’ve explored color resources and built-in palettes,<br />
+let’s create <strong>our own custom palettes</strong> using the colors we like.</p>
+<hr />
+<p>💡 Tip</p>
+<p>Use <code>colorRampPalette()</code> in <strong>R</strong> or <code>LinearSegmentedColormap.from_list()</code> in <strong>Python</strong> to smoothly blend your chosen colors. They’re perfect for heatmaps, gradients, or thematic plots.</p>
+<h3 id="python-build-a-custom-colormap">Python – Build a Custom Colormap</h3>
+<p>We can easily turn a list of HEX codes into a colormap using Matplotlib.</p>
+<p>You can replace the list with any colors you like.<br> For example:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.colors <span class="im">as</span> mcolors</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>grey, red <span class="op">=</span> <span class="st">&#39;#BEBEBE&#39;</span>, <span class="st">&#39;#FF0000&#39;</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>icmp <span class="op">=</span> mcolors.LinearSegmentedColormap.from_list(<span class="st">&quot;&quot;</span>, [grey, red])</span></code></pre></div>
+<p>You can use it like this:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.colors <span class="im">as</span> mcolors</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="co"># define your favorite colors</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>colors <span class="op">=</span> [<span class="st">&#39;#BEBEBE&#39;</span>,<span class="st">&#39;#fff4e6&#39;</span>, <span class="st">&#39;#FF0000&#39;</span>]</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="co"># create a colormap from the list</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>icmp <span class="op">=</span> mcolors.LinearSegmentedColormap.from_list(<span class="st">&quot;my_palette&quot;</span>, colors)</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="co"># visualize it</span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>gradient <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">50</span>)</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>gradient <span class="op">=</span> np.vstack((gradient, gradient))</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">1</span>))</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>plt.imshow(gradient, aspect<span class="op">=</span><span class="st">&#39;auto&#39;</span>, cmap<span class="op">=</span>icmp)</span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>plt.axis(<span class="st">&#39;off&#39;</span>)</span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">&quot;My Custom Colormap&quot;</span>, fontsize<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div>
+<figure>
+<img src="mycolormaps_files/mycolormaps_23_0.png" alt="png" /><figcaption aria-hidden="true">png</figcaption>
+</figure>
+<h3 id="r-make-a-simple-custom-palette">R – Make a Simple Custom Palette</h3>
+<p>R provides an equally easy way with <code>colorRampPalette()</code>.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="sc">%%</span>R</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="co"># create a palette function</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>my_palette <span class="ot">&lt;-</span> <span class="fu">colorRampPalette</span>(<span class="fu">c</span>(<span class="st">&#39;#BEBEBE&#39;</span>,<span class="st">&#39;#fff4e6&#39;</span>, <span class="st">&#39;#FF0000&#39;</span>))</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="co"># generate 50 intermediate colors</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>cols <span class="ot">&lt;-</span> <span class="fu">my_palette</span>(<span class="dv">50</span>)</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="co"># visualize</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="fu">image</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">50</span>, <span class="dv">1</span>, <span class="fu">as.matrix</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">50</span>), <span class="at">col =</span> cols, <span class="at">axes =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">main =</span> <span class="st">&quot;My Custom Color Palette&quot;</span>)</span></code></pre></div>
+<figure>
+<img src="mycolormaps_files/mycolormaps_25_0.png" alt="png" /><figcaption aria-hidden="true">png</figcaption>
+</figure>
+<hr />
+<h2 id="Summary">🏁 Summary</h2>
+<p>In this notebook, we explored how to <strong>discover, choose, and create color palettes</strong> for data visualization:</p>
+<ol type="1">
+<li><p><strong>Find Inspiration Online</strong> — We learned how to explore palettes from our favorite websites like <a href="https://www.color-hex.com/">Color-Hex</a>, <a href="https://colorhunt.co/palettes/popular">Color Hunt</a>, <a href="https://www.colorhexa.com/color-names">Color Hexa</a>, and <a href="https://imagecolorpicker.com/">Image Color Picker</a>.<br />
+Choosing the right palette helps your data <em>tell a clearer and more beautiful story</em>.</p></li>
+<li><p><strong>Use Built-in Color Libraries</strong> — Both <strong>Python</strong> and <strong>R</strong> offer rich color systems:</p>
+<ul>
+<li><p>Python: <code>matplotlib</code>, <code>seaborn</code>, <code>plotly</code></p></li>
+<li><p>R: <code>RColorBrewer</code>, <code>viridis</code>, <code>ggsci</code></p></li>
+</ul>
+<p>We saw how to call and visualize them directly in our code.</p></li>
+<li><p><strong>Create Your Own Palettes</strong> — Finally, we built custom color gradients and palettes from personal favorites,<br />
+blending HEX values smoothly using <code>matplotlib.colors.LinearSegmentedColormap.from_list()</code> in Python and <code>colorRampPalette()</code> in R.</p></li>
+</ol>
+<p>🎨 Whether you prefer warm <em>Cappuccino</em> tones or bright tech-inspired hues,<br />
+color is more than decoration — it shapes how people <em>feel</em> and <em>understand</em> your data.</p>
+<p>✨ <strong>Now it’s your turn to play with colors — experiment, customize, and make your visuals truly your own!</strong></p>
+<script type="text/javascript">
+// @ts-nocheck
+
+document.addEventListener("DOMContentLoaded", () => {
+document.querySelectorAll("div.sourceCode").forEach(block => {
+    // Create "Copy" button
+    const button = document.createElement("button");
+    button.className = "copy-btn";
+    button.innerText = "Copy";
+    block.prepend(button);
+
+    // Get language name from <pre class="sourceCode bash">...
+    const pre = block.querySelector("pre");
+    const lang = (pre.className.match(/sourceCode\s+(\w+)/) || [])[1];
+    if (lang) block.setAttribute("data-lang", lang);
+
+    // Copy functionality
+    button.addEventListener("click", async () => {
+        const code = block.querySelector("code").innerText;
+        try {
+        await navigator.clipboard.writeText(code);
+        button.innerText = "Copied!";
+        button.style.background = "#d1f7c4";
+        setTimeout(() => {
+            button.innerText = "Copy";
+            button.style.background = "#f6f8fa";
+        }, 1800);
+        } catch (err) {
+        button.innerText = "Error";
+        console.error("Copy failed:", err);
+        }
+    });
+    });
+});
+
+/* ===== Responsive Image Auto Sizing ===== */
+document.addEventListener("DOMContentLoaded", function() {
+    document.querySelectorAll("img").forEach(img => {
+    img.onload = () => {
+        const ratio = img.naturalWidth / img.naturalHeight;
+
+        // 标准分类逻辑：竖图小、横图大
+        if (ratio < 0.9) {
+        img.classList.add("portrait");  // 竖图
+        } else if (ratio > 1.5) {
+        img.classList.add("landscape"); // 宽图
+        } else {
+        img.classList.add("square");    // 方图
+        }
+    };
+    });
+});
+
+/* ===== TOC style determination ===== */
+document.addEventListener("DOMContentLoaded", function() {
+    // 找到内容主体
+    const content = document.querySelector("main.content");
+    if (!content) return;
+
+    // 创建 TOC 容器
+    const toc = document.createElement("nav");
+    toc.id = "auto-toc";
+    toc.innerHTML = "<h3>📑 Contents</h3><ul></ul>";
+
+    // 把 TOC 插到 content 之前
+    const container = document.createElement("div");
+    container.className = "toc-container";
+    content.parentNode.insertBefore(container, content);
+    container.appendChild(toc);
+    container.appendChild(content);
+
+    // 扫描标题（支持 h1-h3）
+    const headers = content.querySelectorAll("h1, h2, h3");
+    const list = toc.querySelector("ul");
+
+    headers.forEach(header => {
+    const id = header.id || header.textContent.trim().toLowerCase().replace(/[^\w]+/g, "-");
+    header.id = id; // 确保有 id
+
+    const li = document.createElement("li");
+    li.innerHTML = `<a href="#${id}">${header.textContent}</a>`;
+    list.appendChild(li);
+    });
+
+    // 平滑滚动
+    list.querySelectorAll("a").forEach(link => {
+    link.addEventListener("click", e => {
+        e.preventDefault();
+        const target = document.querySelector(link.getAttribute("href"));
+        if (target) {
+        window.scrollTo({ top: target.offsetTop - 20, behavior: "smooth" });
+        }
+    });
+    });
+
+  // 滚动高亮当前章节
+    const links = list.querySelectorAll("a");
+    const sections = Array.from(links).map(link => document.querySelector(link.getAttribute("href")));
+
+    window.addEventListener("scroll", () => {
+    const scrollPos = window.scrollY + 100;
+    sections.forEach((sec, i) => {
+        if (sec && sec.offsetTop <= scrollPos && sec.offsetTop + sec.offsetHeight > scrollPos) {
+        links.forEach(l => l.classList.remove("active"));
+        links[i].classList.add("active");
+        }
+    });
+    });
+});
+</script>
+</body>
+</html>
